@@ -1,0 +1,23 @@
+<Solution>
+    <Configurations>
+        <Platform Name="Any CPU" />
+    </Configurations>
+    <Folder Name="/src/">
+        <Project Path="src/QAProject.Domain/QAProject.Domain.csproj" />
+        <Project Path="src/QAProject.Application/QAProject.Application.csproj" />
+        <Project Path="src/QAProject.EntityFrameworkCore/QAProject.EntityFrameworkCore.csproj" />
+        <Project Path="src/QAProject.Domain.Shared/QAProject.Domain.Shared.csproj" />
+        <Project Path="src/QAProject.Application.Contracts/QAProject.Application.Contracts.csproj" />
+        <Project Path="src/QAProject.HttpApi/QAProject.HttpApi.csproj" />
+        <Project Path="src/QAProject.HttpApi.Client/QAProject.HttpApi.Client.csproj" />
+        <Project Path="src/QAProject.DbMigrator/QAProject.DbMigrator.csproj" />
+        <Project Path="src/QAProject.HttpApi.Host/QAProject.HttpApi.Host.csproj" />
+    </Folder>
+    <Folder Name="/test/">
+        <Project Path="test/QAProject.Application.Tests/QAProject.Application.Tests.csproj" />
+        <Project Path="test/QAProject.EntityFrameworkCore.Tests/QAProject.EntityFrameworkCore.Tests.csproj" />
+        <Project Path="test/QAProject.TestBase/QAProject.TestBase.csproj" />
+        <Project Path="test/QAProject.Domain.Tests/QAProject.Domain.Tests.csproj" />
+        <Project Path="test/QAProject.HttpApi.Client.ConsoleTestApp/QAProject.HttpApi.Client.ConsoleTestApp.csproj" />
+    </Folder>
+</Solution>

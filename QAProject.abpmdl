@@ -1,0 +1,109 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "5.0.2",
+      "isInstalled": true,
+      "creationTime": "01/21/2026 05:39:51 +00:00"
+    },
+    "Volo.Abp.Account": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "01/21/2026 05:39:51 +00:00"
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "01/21/2026 05:39:51 +00:00"
+    },
+    "Volo.Abp.Identity": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "01/21/2026 05:39:51 +00:00"
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "01/21/2026 05:39:51 +00:00"
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "01/21/2026 05:39:51 +00:00"
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "01/21/2026 05:39:51 +00:00"
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "10.0.2",
+      "isInstalled": true,
+      "creationTime": "01/21/2026 05:39:51 +00:00"
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "QAProject.Application": {
+      "path": "src/QAProject.Application/QAProject.Application.abppkg",
+      "folder": "src"
+    },
+    "QAProject.Application.Tests": {
+      "path": "test/QAProject.Application.Tests/QAProject.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "QAProject.Domain.Shared": {
+      "path": "src/QAProject.Domain.Shared/QAProject.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "QAProject.Application.Contracts": {
+      "path": "src/QAProject.Application.Contracts/QAProject.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "QAProject.HttpApi": {
+      "path": "src/QAProject.HttpApi/QAProject.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "QAProject.HttpApi.Client": {
+      "path": "src/QAProject.HttpApi.Client/QAProject.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "QAProject.EntityFrameworkCore.Tests": {
+      "path": "test/QAProject.EntityFrameworkCore.Tests/QAProject.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "QAProject.EntityFrameworkCore": {
+      "path": "src/QAProject.EntityFrameworkCore/QAProject.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "QAProject.TestBase": {
+      "path": "test/QAProject.TestBase/QAProject.TestBase.abppkg",
+      "folder": "test"
+    },
+    "QAProject.Domain.Tests": {
+      "path": "test/QAProject.Domain.Tests/QAProject.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "QAProject.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/QAProject.HttpApi.Client.ConsoleTestApp/QAProject.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "QAProject.DbMigrator": {
+      "path": "src/QAProject.DbMigrator/QAProject.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "QAProject.HttpApi.Host": {
+      "path": "src/QAProject.HttpApi.Host/QAProject.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "QAProject.Domain": {
+      "path": "src/QAProject.Domain/QAProject.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}
