@@ -21,8 +21,8 @@ namespace QAProject.EntityFrameworkCore;
 [ReplaceDbContext(typeof(IIdentityDbContext))]
 [ReplaceDbContext(typeof(ITenantManagementDbContext))]
 [ConnectionStringName("Default")]
-public class QAProjectDbContext :
-    AbpDbContext<QAProjectDbContext>,
+public class QAProjectDbContext(DbContextOptions<QAProjectDbContext> options) :
+    AbpDbContext<QAProjectDbContext>(options),
     ITenantManagementDbContext,
     IIdentityDbContext
 {
@@ -58,12 +58,6 @@ public class QAProjectDbContext :
 
     #endregion
 
-    public QAProjectDbContext(DbContextOptions<QAProjectDbContext> options)
-        : base(options)
-    {
-
-    }
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -88,13 +82,19 @@ public class QAProjectDbContext :
         //    b.ConfigureByConvention(); //auto configure for the base class props
         //    //...
         //});
-        builder.Entity<Questions.Question>(b =>
+        builder.Entity<Question>(b =>
         {
             b.ToTable(QAProjectConsts.DbTablePrefix + "Questions", QAProjectConsts.DbSchema);
             b.ConfigureByConvention();
             
             b.Property(x => x.Title).IsRequired().HasMaxLength(200);
             b.Property(x => x.Content).IsRequired();
+            b.Property(x => x.Status).IsRequired();
+            
+            b.HasOne<IdentityUser>() 
+                .WithMany()
+                .HasForeignKey(x => x.AssigneeId)
+                .IsRequired(false);
         });
 
         builder.Entity<Comment>(b =>
@@ -103,7 +103,7 @@ public class QAProjectDbContext :
             b.ConfigureByConvention();
             b.Property(x => x.Content).IsRequired();
             
-            b.HasOne<Questions.Question>()
+            b.HasOne<Question>()
                 .WithMany(q => q.Comments)
                 .HasForeignKey(x => x.QuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
