@@ -24,7 +24,7 @@ namespace QAProject.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("QAProject.Questions.Comment", b =>
+            modelBuilder.Entity("QAProject.Questions.Message", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace QAProject.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("AppComments", (string)null);
+                    b.ToTable("AppMessages", (string)null);
                 });
 
             modelBuilder.Entity("QAProject.Questions.Question", b =>
@@ -1977,7 +1977,7 @@ namespace QAProject.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
-            modelBuilder.Entity("QAProject.Questions.Comment", b =>
+            modelBuilder.Entity("QAProject.Questions.Message", b =>
                 {
                     b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
                         .WithMany()
@@ -1985,7 +1985,7 @@ namespace QAProject.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("QAProject.Questions.Question", null)
-                        .WithMany("Comments")
+                        .WithMany("Messages")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -2167,7 +2167,7 @@ namespace QAProject.Migrations
 
             modelBuilder.Entity("QAProject.Questions.Question", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>

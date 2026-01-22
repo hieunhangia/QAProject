@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace QAProject.Migrations
 {
     /// <inheritdoc />
-    public partial class AddQuestions : Migration
+    public partial class AddQuestionAndMessages : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -446,28 +446,6 @@ namespace QAProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppQuestions",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AssigneeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    ClosedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppQuestions", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OpenIddictApplications",
                 columns: table => new
                 {
@@ -787,24 +765,40 @@ namespace QAProject.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AppComments",
+                name: "AppQuestions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AssigneeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    ClosedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ExtraProperties = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    LastModificationTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifierId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppComments", x => x.Id);
+                    table.PrimaryKey("PK_AppQuestions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AppComments_AppQuestions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "AppQuestions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_AppQuestions_AbpUsers_AssigneeId",
+                        column: x => x.AssigneeId,
+                        principalTable: "AbpUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AppQuestions_AbpUsers_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "AbpUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AppQuestions_AbpUsers_LastModifierId",
+                        column: x => x.LastModifierId,
+                        principalTable: "AbpUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -851,6 +845,33 @@ namespace QAProject.Migrations
                         name: "FK_AbpEntityPropertyChanges_AbpEntityChanges_EntityChangeId",
                         column: x => x.EntityChangeId,
                         principalTable: "AbpEntityChanges",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppMessages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    QuestionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppMessages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppMessages_AbpUsers_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "AbpUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AppMessages_AppQuestions_QuestionId",
+                        column: x => x.QuestionId,
+                        principalTable: "AppQuestions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1123,9 +1144,29 @@ namespace QAProject.Migrations
                 column: "UserName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AppComments_QuestionId",
-                table: "AppComments",
+                name: "IX_AppMessages_CreatorId",
+                table: "AppMessages",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppMessages_QuestionId",
+                table: "AppMessages",
                 column: "QuestionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppQuestions_AssigneeId",
+                table: "AppQuestions",
+                column: "AssigneeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppQuestions_CreatorId",
+                table: "AppQuestions",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppQuestions_LastModifierId",
+                table: "AppQuestions",
+                column: "LastModifierId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictApplications_ClientId",
@@ -1240,7 +1281,7 @@ namespace QAProject.Migrations
                 name: "AbpUserTokens");
 
             migrationBuilder.DropTable(
-                name: "AppComments");
+                name: "AppMessages");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictScopes");
@@ -1264,9 +1305,6 @@ namespace QAProject.Migrations
                 name: "AbpRoles");
 
             migrationBuilder.DropTable(
-                name: "AbpUsers");
-
-            migrationBuilder.DropTable(
                 name: "AppQuestions");
 
             migrationBuilder.DropTable(
@@ -1274,6 +1312,9 @@ namespace QAProject.Migrations
 
             migrationBuilder.DropTable(
                 name: "AbpAuditLogs");
+
+            migrationBuilder.DropTable(
+                name: "AbpUsers");
 
             migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
