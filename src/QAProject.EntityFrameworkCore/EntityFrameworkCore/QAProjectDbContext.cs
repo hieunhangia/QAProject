@@ -93,18 +93,15 @@ public class QAProjectDbContext(DbContextOptions<QAProjectDbContext> options) :
             
             b.HasOne(q => q.Creator)
                 .WithMany()
-                .HasForeignKey(q => q.CreatorId)
-                .IsRequired(false);
-            
+                .HasForeignKey(q => q.CreatorId);
+
             b.HasOne(q => q.LastModifier)
                 .WithMany()
-                .HasForeignKey(q => q.LastModifierId)
-                .IsRequired(false);
-            
+                .HasForeignKey(q => q.LastModifierId);
+
             b.HasOne(q => q.Assignee)
                 .WithMany()
-                .HasForeignKey(q => q.AssigneeId)
-                .IsRequired(false);
+                .HasForeignKey(q => q.AssigneeId);
         });
 
         builder.Entity<Comment>(b =>
@@ -116,6 +113,11 @@ public class QAProjectDbContext(DbContextOptions<QAProjectDbContext> options) :
             b.HasOne<Question>()
                 .WithMany(c => c.Comments)
                 .HasForeignKey(c => c.QuestionId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            b.HasOne(c => c.Creator)
+                .WithMany()
+                .HasForeignKey(c => c.CreatorId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }
