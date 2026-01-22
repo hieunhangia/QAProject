@@ -104,14 +104,14 @@ public class QAProjectDbContext(DbContextOptions<QAProjectDbContext> options) :
                 .HasForeignKey(q => q.AssigneeId);
         });
 
-        builder.Entity<Comment>(b =>
+        builder.Entity<Message>(b =>
         {
-            b.ToTable(QAProjectConsts.DbTablePrefix + "Comments", QAProjectConsts.DbSchema);
+            b.ToTable(QAProjectConsts.DbTablePrefix + "Messages", QAProjectConsts.DbSchema);
             b.ConfigureByConvention();
             b.Property(c => c.Content).IsRequired();
             
             b.HasOne<Question>()
-                .WithMany(c => c.Comments)
+                .WithMany(c => c.Messages)
                 .HasForeignKey(c => c.QuestionId)
                 .OnDelete(DeleteBehavior.Cascade);
             

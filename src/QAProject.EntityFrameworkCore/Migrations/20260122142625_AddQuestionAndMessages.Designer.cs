@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace QAProject.Migrations
 {
     [DbContext(typeof(QAProjectDbContext))]
-    [Migration("20260121070409_AddQuestions")]
-    partial class AddQuestions
+    [Migration("20260122142625_AddQuestionAndMessages")]
+    partial class AddQuestionAndMessages
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,7 @@ namespace QAProject.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("QAProject.Entities.Comment", b =>
+            modelBuilder.Entity("QAProject.Questions.Message", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -50,12 +50,14 @@ namespace QAProject.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatorId");
+
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("AppComments", (string)null);
+                    b.ToTable("AppMessages", (string)null);
                 });
 
-            modelBuilder.Entity("QAProject.Entities.Question", b =>
+            modelBuilder.Entity("QAProject.Questions.Question", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -108,6 +110,12 @@ namespace QAProject.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssigneeId");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("LastModifierId");
 
                     b.ToTable("AppQuestions", (string)null);
                 });
@@ -1972,13 +1980,41 @@ namespace QAProject.Migrations
                     b.ToTable("AbpTenantConnectionStrings", (string)null);
                 });
 
-            modelBuilder.Entity("QAProject.Entities.Comment", b =>
+            modelBuilder.Entity("QAProject.Questions.Message", b =>
                 {
-                    b.HasOne("QAProject.Entities.Question", null)
-                        .WithMany("Comments")
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("QAProject.Questions.Question", null)
+                        .WithMany("Messages")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("QAProject.Questions.Question", b =>
+                {
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Assignee")
+                        .WithMany()
+                        .HasForeignKey("AssigneeId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
+                        .WithMany()
+                        .HasForeignKey("CreatorId");
+
+                    b.HasOne("Volo.Abp.Identity.IdentityUser", "LastModifier")
+                        .WithMany()
+                        .HasForeignKey("LastModifierId");
+
+                    b.Navigation("Assignee");
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("LastModifier");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLogAction", b =>
@@ -2132,9 +2168,9 @@ namespace QAProject.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("QAProject.Entities.Question", b =>
+            modelBuilder.Entity("QAProject.Questions.Question", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("Messages");
                 });
 
             modelBuilder.Entity("Volo.Abp.AuditLogging.AuditLog", b =>
