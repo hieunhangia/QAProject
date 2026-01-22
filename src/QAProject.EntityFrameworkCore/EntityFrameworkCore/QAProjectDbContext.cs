@@ -94,7 +94,7 @@ public class QAProjectDbContext(DbContextOptions<QAProjectDbContext> options) :
             b.HasOne(q => q.Creator)
                 .WithMany()
                 .HasForeignKey(q => q.CreatorId)
-                .IsRequired();
+                .IsRequired(false);
             
             b.HasOne(q => q.LastModifier)
                 .WithMany()
