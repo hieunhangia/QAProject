@@ -87,25 +87,37 @@ public class QAProjectDbContext(DbContextOptions<QAProjectDbContext> options) :
             b.ToTable(QAProjectConsts.DbTablePrefix + "Questions", QAProjectConsts.DbSchema);
             b.ConfigureByConvention();
             
-            b.Property(x => x.Title).IsRequired().HasMaxLength(200);
-            b.Property(x => x.Content).IsRequired();
-            b.Property(x => x.Status).IsRequired();
+            b.Property(q => q.Title).IsRequired().HasMaxLength(200);
+            b.Property(q => q.Content).IsRequired();
+            b.Property(q => q.Status).IsRequired();
             
-            b.HasOne<IdentityUser>() 
+            b.HasOne(q => q.Creator)
                 .WithMany()
-                .HasForeignKey(x => x.AssigneeId)
-                .IsRequired(false);
+                .HasForeignKey(q => q.CreatorId);
+
+            b.HasOne(q => q.LastModifier)
+                .WithMany()
+                .HasForeignKey(q => q.LastModifierId);
+
+            b.HasOne(q => q.Assignee)
+                .WithMany()
+                .HasForeignKey(q => q.AssigneeId);
         });
 
         builder.Entity<Comment>(b =>
         {
             b.ToTable(QAProjectConsts.DbTablePrefix + "Comments", QAProjectConsts.DbSchema);
             b.ConfigureByConvention();
-            b.Property(x => x.Content).IsRequired();
+            b.Property(c => c.Content).IsRequired();
             
             b.HasOne<Question>()
-                .WithMany(q => q.Comments)
-                .HasForeignKey(x => x.QuestionId)
+                .WithMany(c => c.Comments)
+                .HasForeignKey(c => c.QuestionId)
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            b.HasOne(c => c.Creator)
+                .WithMany()
+                .HasForeignKey(c => c.CreatorId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
     }

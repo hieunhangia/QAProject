@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QAProject.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace QAProject.Migrations
 {
     [DbContext(typeof(QAProjectDbContext))]
-    partial class QAProjectDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260122120904_AddQuestionAndIdentityUserRelations")]
+    partial class AddQuestionAndIdentityUserRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,8 +49,6 @@ namespace QAProject.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
 
                     b.HasIndex("QuestionId");
 
@@ -1979,18 +1980,11 @@ namespace QAProject.Migrations
 
             modelBuilder.Entity("QAProject.Questions.Comment", b =>
                 {
-                    b.HasOne("Volo.Abp.Identity.IdentityUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("QAProject.Questions.Question", null)
                         .WithMany("Comments")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("QAProject.Questions.Question", b =>
