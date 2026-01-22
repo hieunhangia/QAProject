@@ -27,7 +27,7 @@ public class QAProjectDbContext(DbContextOptions<QAProjectDbContext> options) :
     IIdentityDbContext
 {
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
-
+    public DbSet<Question> Questions { get; set; }
 
     #region Entities from the modules
 
