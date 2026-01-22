@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using QAProject.Constants;
-using QAProject.Permissions;
 using QAProject.Questions;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
@@ -14,22 +13,21 @@ using Volo.Abp.Authorization;
 using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Identity;
-using Volo.Abp.Users;
 
 namespace QAProject.User.Questions;
 
 [Authorize(Roles = Roles.User)]
-public class QuestionAppService(IRepository<Question, Guid> repository, IRepository<IdentityUser, Guid> userRepository) :
-    CrudAppService<
-        Question,
-        QuestionDetailDto,
-        QuestionSummaryDto,
-        Guid,
-        PagedAndSortedResultRequestDto,
-        CreateQuestionDto, UpdateQuestionDto>(repository),
-    IQuestionAppService
+public class QuestionAppService(IRepository<Question, Guid> repository, IRepository<IdentityUser, Guid> userRepository)
+    :
+        CrudAppService<
+            Question,
+            QuestionDetailDto,
+            QuestionSummaryDto,
+            Guid,
+            PagedAndSortedResultRequestDto,
+            CreateQuestionDto, UpdateQuestionDto>(repository),
+        IQuestionAppService
 {
-
     public override async Task<QuestionDetailDto> GetAsync(Guid id)
     {
         var queryable = await Repository.GetQueryableAsync();
@@ -38,17 +36,17 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
             .Include(q => q.Messages)
             .ThenInclude(q => q.Creator)
             .FirstOrDefaultAsync(q => q.Id == id);
-        
+
         if (question == null)
         {
             throw new EntityNotFoundException(typeof(Question), id);
         }
-        
+
         if (question.CreatorId != CurrentUser.Id)
         {
             throw new AbpAuthorizationException("Bạn không có quyền truy cập câu hỏi này.");
         }
-        
+
         return await MapToGetOutputDtoAsync(question);
     }
 
@@ -82,9 +80,9 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
     {
         if (await userRepository.FindAsync(u => u.Id == input.AssigneeId) == null)
         {
-            throw new UserFriendlyException("Người được giao nhiệm vụ trả lời không tồn tại.");
+            throw new EntityNotFoundException("Người được giao nhiệm vụ trả lời không tồn tại.");
         }
-        
+
         return await base.CreateAsync(input);
     }
 
@@ -92,17 +90,22 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
     {
         var queryable = await Repository.GetQueryableAsync();
         var question = await queryable.Include(q => q.Messages).FirstOrDefaultAsync(q => q.Id == id);
-        
+
         if (question == null)
         {
             throw new EntityNotFoundException(typeof(Question), id);
         }
-        
+
         if (question.CreatorId != CurrentUser.Id)
         {
             throw new AbpAuthorizationException("Bạn không có quyền cập nhật câu hỏi này.");
         }
-        
+
+        if (question.Status == QaStatus.Closed)
+        {
+            throw new UserFriendlyException("Không thể cập nhật câu hỏi đã đóng.");
+        }
+
         if (question.Messages.Count != 0)
         {
             throw new UserFriendlyException("Không thể cập nhật câu hỏi đã có câu trả lời.");
@@ -111,6 +114,28 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
         return await base.UpdateAsync(id, input);
     }
 
-    [RemoteService(false)]    
+    public async Task UpdateStatusAsync(Guid id, QaStatus status)
+    {
+        var question = await Repository.FirstOrDefaultAsync(q => q.Id == id);
+        if (question == null)
+        {
+            throw new EntityNotFoundException(typeof(Question), id);
+        }
+
+        if (question.CreatorId != CurrentUser.Id)
+        {
+            throw new AbpAuthorizationException("Bạn không có quyền cập nhật câu hỏi này.");
+        }
+
+        if (question.Status == status)
+        {
+            throw new UserFriendlyException("Trạng thái câu hỏi không thay đổi.");
+        }
+
+        question.Status = status;
+        await Repository.UpdateAsync(question);
+    }
+
+    [RemoteService(false)]
     public override Task DeleteAsync(Guid id) => base.DeleteAsync(id);
 }

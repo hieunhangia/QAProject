@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+using QAProject.Questions;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -9,6 +11,7 @@ public interface IQuestionAppService : ICrudAppService<
     QuestionSummaryDto,
     Guid,
     PagedAndSortedResultRequestDto,
-    CreateQuestionDto,UpdateQuestionDto>
+    CreateQuestionDto, UpdateQuestionDto>
 {
+    Task UpdateStatusAsync(Guid id, QaStatus status);
 }
