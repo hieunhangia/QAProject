@@ -199,11 +199,9 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
             throw new UserFriendlyException("Không thể cập nhật tin nhắn trong câu hỏi đã đóng.");
         }
 
-        var lastMessage = question.Messages.OrderByDescending(m => m.CreationTime).First();
-
-        if (message.Id != lastMessage.Id)
+        if (question.Messages.Any(m => m.CreationTime > message.CreationTime))
         {
-            throw new UserFriendlyException("Chỉ có thể cập nhật tin nhắn cuối cùng trong câu hỏi.");
+            throw new UserFriendlyException("Chỉ có thể cập nhật tin nhắn mới nhất.");
         }
 
         message.Content = input.Content;
