@@ -14,4 +14,6 @@ public interface IQuestionAppService : ICrudAppService<
     CreateQuestionDto, UpdateQuestionDto>
 {
     Task UpdateStatusAsync(Guid id, QaStatus status);
+    Task AddMessageAsync(Guid questionId, CreateUpdateMessageDto input);
+    Task UpdateMessageAsync(Guid messageId, CreateUpdateMessageDto input);
 }

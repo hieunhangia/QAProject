@@ -136,6 +136,69 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
         await Repository.UpdateAsync(question);
     }
 
+    public async Task AddMessageAsync(Guid questionId, CreateUpdateMessageDto input)
+    {
+        var question = await Repository.FirstOrDefaultAsync(q => q.Id == questionId);
+
+        if (question == null)
+        {
+            throw new EntityNotFoundException(typeof(Question), questionId);
+        }
+
+        if (question.CreatorId != CurrentUser.Id)
+        {
+            throw new AbpAuthorizationException("Bạn không có quyền thêm tin nhắn vào câu hỏi này.");
+        }
+
+        if (question.Status == QaStatus.Closed)
+        {
+            throw new UserFriendlyException("Không thể thêm tin nhắn vào câu hỏi đã đóng.");
+        }
+
+        question.AddMessage(input.Content);
+        await Repository.UpdateAsync(question);
+    }
+
+    public async Task UpdateMessageAsync(Guid messageId, CreateUpdateMessageDto input)
+    {
+        var queryable = await Repository.GetQueryableAsync();
+        var question = await queryable
+            .Include(q => q.Messages)
+            .FirstOrDefaultAsync(q => q.Messages.Any(m => m.Id == messageId));
+
+        if (question == null)
+        {
+            throw new EntityNotFoundException(typeof(Message), messageId);
+        }
+
+        if (question.CreatorId != CurrentUser.Id)
+        {
+            throw new AbpAuthorizationException("Bạn không có quyền cập nhật tin nhắn này.");
+        }
+
+        var message = question.Messages.First(m => m.Id == messageId);
+
+        if (message.CreatorId != CurrentUser.Id)
+        {
+            throw new AbpAuthorizationException("Bạn không có quyền cập nhật tin nhắn này.");
+        }
+
+        if (question.Status == QaStatus.Closed)
+        {
+            throw new UserFriendlyException("Không thể cập nhật tin nhắn trong câu hỏi đã đóng.");
+        }
+
+        var lastMessage = question.Messages.OrderByDescending(m => m.CreationTime).First();
+
+        if (message.Id != lastMessage.Id)
+        {
+            throw new UserFriendlyException("Chỉ có thể cập nhật tin nhắn cuối cùng trong câu hỏi.");
+        }
+
+        message.Content = input.Content;
+        await Repository.UpdateAsync(question);
+    }
+
     [RemoteService(false)]
     public override Task DeleteAsync(Guid id) => base.DeleteAsync(id);
 }
