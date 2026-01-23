@@ -132,7 +132,18 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
             throw new UserFriendlyException("Trạng thái câu hỏi không thay đổi.");
         }
 
-        question.Status = status;
+        switch (status)
+        {
+            case QaStatus.Open:
+                question.Reopen();
+                break;
+            case QaStatus.Closed:
+                question.Close();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(status), status, "Trạng thái câu hỏi không hợp lệ.");
+        }
+
         await Repository.UpdateAsync(question);
     }
 
