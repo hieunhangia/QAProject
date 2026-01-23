@@ -10,6 +10,7 @@ public class QuestionDetailDto : AuditedEntityDto<Guid>
     public string? Title { get; set; }
     public string? Content { get; set; }
     public QaStatus Status { get; set; }
+    public DateTime? ClosedAt { get; set; }
     public string? AssigneeName { get; set; }
     public IEnumerable<MessageDto>? Messages { get; set; }
 }
