@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { AuthService, LocalizationPipe } from '@abp/ng.core';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [LocalizationPipe]
+  imports: [LocalizationPipe, ButtonModule]
 })
 export class HomeComponent {
   private authService = inject(AuthService);
