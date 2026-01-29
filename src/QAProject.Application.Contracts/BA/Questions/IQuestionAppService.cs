@@ -8,9 +8,16 @@ using Volo.Abp.Application.Services;
 
 namespace QAProject.BA.Questions
 {
-    public interface IQuestionAppService : IApplicationService
+    public interface IBaQuestionAppService : IApplicationService
     {
         Task<PagedResultDto<QuestionDto>> GetListQuestionAsync(GetQuestionListInput input);
         Task<MessageDto> SendMessageAsync(SendMessageDto input);
+        Task<List<MessageDto>> GetMessagesAsync(Guid questionId);
+
+        // Cập nhật tin nhắn
+        Task<MessageDto> UpdateMessageAsync(Guid messageId, CreateUpdateMessageDto input);
+
+        // Xóa tin nhắn
+        Task DeleteMessageAsync(Guid messageId);
     }
 }
