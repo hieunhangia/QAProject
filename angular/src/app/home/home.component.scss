@@ -1,27 +1,98 @@
-/* Styles for the home component */
-.card-bg-image {
-  position: absolute;
-  width: 630px;
-  height: auto;
-  bottom: 0;
-  right: 0;
-  z-index: 1;
-}
+:host {
+  --c-blue: #0056D2; // Coursera Signature Blue
+  --c-blue-hover: #00419e;
 
-.starting-content {
-  position: relative;
-  z-index: 2;
-}
+  .coursera-scope {
+    background-color: #ffffff;
+    min-height: 100vh;
+    font-family: 'Open Sans', 'Inter', -apple-system, sans-serif;
 
+    /* Hero Section */
+    .hero-section {
+      padding: 160px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, #f5f9ff 0%, #ffffff 100%);
 
-@media (min-width: 1199px) {
-  .h-lg-100 {
-    height: 100% !important;
-  }
-}
+      .brand-badge {
+        color: var(--c-blue);
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        margin-bottom: 2rem;
+      }
 
-@media (min-width: 768px) {
-  .h-md-100 {
-    height: 100% !important;
+      .main-title {
+        font-size: 4.8rem;
+        font-weight: 800;
+        color: #1f1f1f;
+        line-height: 1.05;
+        letter-spacing: -2.5px;
+        margin-bottom: 1.5rem;
+      }
+
+      .main-subtitle {
+        font-size: 1.4rem;
+        color: #4b4b4b;
+        max-width: 750px;
+        margin: 0 auto 3rem auto;
+        line-height: 1.6;
+      }
+
+      /* Tách biệt hai nút bấm */
+      .cta-group {
+        display: flex;
+        gap: 24px; // Khoảng cách rộng giữa 2 nút
+        justify-content: center;
+        align-items: center;
+      }
+    }
+
+    /* Tinh chỉnh Component PrimeNG v18 */
+    ::ng-deep {
+      .p-button {
+        padding: 1.25rem 3.5rem !important; // Nút dài và thoáng hơn
+        border-radius: 4px !important;    // Bo góc nhẹ đặc trưng
+        font-weight: 700 !important;
+        font-size: 1.1rem;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+        &.p-button-primary {
+          background-color: var(--c-blue);
+          border-color: var(--c-blue);
+          &:hover { background-color: var(--c-blue-hover); }
+        }
+
+        &.p-button-outlined.p-button-secondary {
+          color: var(--c-blue);
+          border: 1px solid var(--c-blue);
+          background: transparent;
+          &:hover { background: rgba(0, 86, 210, 0.04); }
+        }
+      }
+
+      /* Card thống kê sạch sẽ */
+      .stat-card {
+        background: white;
+        padding: 2.5rem;
+        border-radius: 8px;
+        border: 1px solid #eee;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        
+        .label {
+          display: block;
+          font-weight: 700;
+          color: #636363;
+          font-size: 0.8rem;
+          text-transform: uppercase;
+          margin-bottom: 1rem;
+        }
+        .value {
+          font-size: 3.5rem;
+          font-weight: 800;
+          color: #1f1f1f;
+        }
+      }
+    }
   }
 }
