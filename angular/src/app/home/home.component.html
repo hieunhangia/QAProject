@@ -23,38 +23,8 @@
   }
 
   @else {
-  <div class="dashboard-area bg-gray-50 p-6 md:p-8">
-    <div class="header-nav mb-8 flex justify-content-between align-items-center">
-      <div>
-        <h2 class="text-900 font-bold text-4xl m-0 tracking-tight">Performance Overview</h2>
-        <p class="text-600 mt-2 text-lg">Track your Q&A metrics and assignments.</p>
-      </div>
-      <div class="flex gap-3">
-        <p-button label="Export Data" icon="pi pi-download" severity="secondary" variant="outlined" (click)="exportExcel()" />
-        <p-button label="New Question" icon="pi pi-plus" (click)="createQA()" />
-      </div>
-    </div>
-
-    <div class="grid g-4">
-      <div class="col-12 md:col-4">
-        <div class="stat-card">
-          <span class="label">Questions Created</span>
-          <div class="value">12</div>
-        </div>
-      </div>
-      <div class="col-12 md:col-4">
-        <div class="stat-card">
-          <span class="label">Assigned to You</span>
-          <div class="value">05</div>
-        </div>
-      </div>
-      <div class="col-12 md:col-4">
-        <div class="stat-card">
-          <span class="label">Total Resolved</span>
-          <div class="value text-green-600">156</div>
-        </div>
-      </div>
-    </div>
-  </div>
+    @if(roles.includes('User')){
+      <app-home-user [currentUser] = "currentUser"></app-home-user>
+    }
   }
 </div>

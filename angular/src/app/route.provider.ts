@@ -17,5 +17,13 @@ function configureRoutes() {
         order: 1,
         layout: eLayoutType.application,
       },
+      {
+        path: '/question-list',
+        name: 'Question list',
+        iconClass: 'fas fa-home',
+        order: 1,
+        layout: eLayoutType.application,
+      },
   ]);
+
 }

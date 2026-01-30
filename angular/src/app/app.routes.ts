@@ -23,4 +23,8 @@ export const APP_ROUTES: Routes = [
     path: 'setting-management',
     loadChildren: () => import('@abp/ng.setting-management').then(c => c.createRoutes()),
   },
+  {
+    path: 'question-list',
+    loadComponent: () => import('./question/question-table/question-table').then(c => c.QuestionTable)
+  }
 ];

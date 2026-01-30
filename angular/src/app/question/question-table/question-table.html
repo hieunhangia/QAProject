@@ -1,0 +1,55 @@
+<div class="coursera-layout">
+    <div class="coursera-wrapper">
+        <div class="header-container flex justify-content-between align-items-center">
+            <div class="header-text">
+                <h1 class="main-title">Questions Catalog</h1>
+                <p class="sub-title">Manage and track all community discussions in real-time.</p>
+            </div>
+            <p-button label="CREATE NEW QUESTION" icon="pi pi-plus" size="large" styleClass="btn-coursera-primary">
+            </p-button>
+        </div>
+
+        <div class="table-card shadow-sm">
+            <p-table [value]="recentQuestions" [paginator]="true" [rows]="10"
+                styleClass="p-datatable-lg p-datatable-coursera-v20" [responsiveLayout]="'scroll'"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 25%">TOPIC</th>
+                        <th style="width: 40%">DESCRIPTION</th>
+                        <th style="width: 10%" class="text-center">STATUS</th>
+                        <th style="width: 15%">ASSIGNEE</th>
+                        <th style="width: 10%" class="text-center">ACTION</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-q>
+                    <tr class="row-hover">
+                        <td><span class="topic-title">{{ q.title }}</span></td>
+                        <td>
+                            <p class="snippet-text">{{ q.content | slice:0:150 }}...</p>
+                        </td>
+                        <td class="text-center">
+                            <p-tag [value]="'Open'" styleClass="tag-pill-coursera"></p-tag>
+                        </td>
+                        <td>
+                            <div class="flex align-items-center">
+                                <p-avatar [label]="q.assigneeName?.charAt(0)" size="large" shape="circle"
+                                    styleClass="avatar-black"></p-avatar>
+                                <span class="assignee-name ms-1">{{ q.assigneeName ? q.assigneeName : 'Unassigned'
+                                    }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <p-button label="Detail" icon="pi pi-eye" styleClass="btn-view-detail-primary ps-1"
+                                pTooltip="View Detail" tooltipPosition="bottom">
+                            </p-button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

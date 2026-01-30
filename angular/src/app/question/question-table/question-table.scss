@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+$blue: #0056D2;
+$blue-hover: #00419e;
+$text-main: #1F1F1F;
+$text-sub: #636363;
+$bg-light: #F8F9FA;
+
+:host {
+    font-family: 'Inter', sans-serif;
+    display: block;
+    background-color: $bg-light;
+    min-height: 100vh;
+}
+
+.coursera-wrapper {
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.header-container {
+    margin-bottom: 4rem;
+
+    .main-title {
+        font-size: 2.4rem !important;
+        font-weight: 700;
+        color: $text-main;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.04em;
+    }
+
+    .sub-title {
+        font-size: 1.2rem;
+        color: $text-sub;
+    }
+
+    /* Chỉnh chữ nút Create New Question bé lại */
+    ::ng-deep .btn-coursera-primary {
+        background-color: $blue !important;
+        border: none !important;
+        padding: 0.5rem 1rem !important;
+
+        .p-button-label {
+            font-size: 0.8rem !important;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: #F0F2F3;
+        }
+
+        .p-button-icon {
+            font-size: 0.85rem;
+        }
+    }
+}
+
+.table-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #D1D7DC;
+    overflow: hidden;
+}
+
+/* Custom Table PrimeNG */
+::ng-deep .p-datatable-coursera-v20 {
+    .p-datatable-thead>tr>th {
+        background: #ffffff !important;
+        color: #6A6F73 !important;
+        font-weight: 700 !important;
+        font-size: 0.8rem !important;
+        padding: 1.25rem 1.5rem !important;
+        border-bottom: 2px solid #F0F2F3 !important;
+        text-transform: uppercase;
+    }
+
+    .p-datatable-tbody>tr {
+        background: #ffffff !important;
+
+        td {
+            padding: 1.25rem 1.5rem !important;
+            border-bottom: 1px solid #F0F0F0 !important;
+            vertical-align: middle;
+        }
+
+        &:hover {
+            background-color: #F9FBFF !important;
+        }
+    }
+
+    /* Chỉnh cỡ chữ Topic bé hơn */
+    .topic-title {
+        color: $blue;
+        font-size: 0.95rem !important;
+        font-weight: 600;
+        cursor: pointer;
+        line-height: 1.4;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .snippet-text {
+        font-size: 0.9rem;
+        color: #404040;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* Paginator */
+    .p-paginator {
+        background: #ffffff !important;
+        padding: 1.5rem !important;
+        border-top: 1px solid #F0F0F0 !important;
+        justify-content: center !important;
+
+        .p-paginator-current {
+            font-size: 0.85rem;
+            color: $text-sub;
+            margin-right: auto;
+        }
+    }
+}
+
+/* --- PHẦN CHỈNH NÚT VIEW DETAIL --- */
+::ng-deep .btn-view-detail-primary {
+    background-color: $blue !important;
+    border: 1px solid $blue !important;
+    border-radius: 4px !important;
+    transition: all 0.2s;
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    .p-button-label {
+        color: #ffffff !important;
+        font-size: 0.75rem !important;
+        font-weight: 500 !important;
+        flex: 0 0 auto !important;
+    }
+
+    .p-button-icon {
+        color: #ffffff !important;
+        font-size: 0.75rem !important;
+    }
+
+    &:hover {
+        background-color: $blue-hover !important;
+        border-color: $blue-hover !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Các thành phần bổ trợ */
+::ng-deep .tag-pill-coursera {
+    background: #E1E9F4 !important;
+    color: $blue !important;
+    font-size: 0.7rem !important;
+    padding: 0.3rem 0.8rem !important;
+    border-radius: 100px !important;
+    font-weight: 700 !important;
+}
+
+::ng-deep .avatar-black {
+    background: #1F1F1F !important;
+    width: 2.4rem !important;
+    height: 2.4rem !important;
+    font-size: 0.9rem !important;
+}
+
+.assignee-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1F1F1F;
+}
