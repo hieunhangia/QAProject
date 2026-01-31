@@ -1,0 +1,114 @@
+<div class="coursera-layout">
+  <div class="coursera-wrapper">
+    <div class="header-container">
+      <h1 class="main-title">Create New Question</h1>
+      <p class="sub-title">Submit a new question and assign it to a team member for resolution.</p>
+    </div>
+
+    <div class="form-card shadow-sm">
+      <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <div class="form-field full-width">
+            <label for="title" class="field-label">Topic</label>
+            <input
+              pInputText
+              id="title"
+              formControlName="title"
+              class="w-full"
+              placeholder="Enter question topic"
+            />
+            @if (questionForm.get('title')?.invalid && questionForm.get('title')?.touched) {
+              <small class="p-error">Topic is required.</small>
+            }
+          </div>
+
+          <div class="form-field full-width">
+            <label for="content" class="field-label">Description</label>
+            <textarea
+              pTextarea
+              id="content"
+              formControlName="content"
+              rows="5"
+              class="w-full"
+              placeholder="Describe your question in detail..."
+            ></textarea>
+            @if (questionForm.get('content')?.invalid && questionForm.get('content')?.touched) {
+              <small class="p-error">Description is required.</small>
+            }
+          </div>
+
+          <div class="form-field full-width">
+            <label for="assignee" class="field-label">Assignee</label>
+            <p-autoComplete
+              id="assignee"
+              [(ngModel)]="selectedAssignee"
+              [suggestions]="assignees"
+              (completeMethod)="searchAssignee($event)"
+              (onSelect)="onAssigneeSelect($event)"
+              (onClear)="onAssigneeClear()"
+              optionLabel="name"
+              placeholder="Search by name..."
+              [dropdown]="true"
+              [showClear]="true"
+              [minLength]="0"
+              dropdownMode="blank"
+              styleClass="autocomplete-coursera w-full"
+              panelStyleClass="assignee-autocomplete-panel"
+              [ngModelOptions]="{standalone: true}"
+              scrollHeight="200px"
+            >
+              <ng-template let-item pTemplate="item">
+                <div class="assignee-item flex align-items-center gap-2">
+                  <p-avatar
+                    [label]="item.name?.charAt(0) || '?'"
+                    shape="circle"
+                    styleClass="avatar-sm"
+                  />
+                  <span class="assignee-item-name">{{ item.name }}</span>
+                </div>
+              </ng-template>
+              <ng-template let-selected pTemplate="selectedItem">
+                @if (selected) {
+                  <div class="flex align-items-center gap-2">
+                    <p-avatar
+                      [label]="selected.name?.charAt(0) || '?'"
+                      shape="circle"
+                      styleClass="avatar-sm"
+                    />
+                    <span>{{ selected.name }}</span>
+                  </div>
+                }
+              </ng-template>
+              <ng-template pTemplate="empty">
+                <div class="assignee-empty">No assignees found.</div>
+              </ng-template>
+            </p-autoComplete>
+            @if (questionForm.get('assigneeId')?.invalid && questionForm.get('assigneeId')?.touched) {
+              <small class="p-error">Please select an assignee.</small>
+            }
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <p-button
+            type="submit"
+            label="Create Question"
+            icon="pi pi-check"
+            styleClass="btn-coursera-primary"
+            [loading]="submitting"
+            [disabled]="submitting"
+          />
+          <p-button
+            type="button"
+            label="Cancel"
+            icon="pi pi-times"
+            severity="secondary"
+            variant="outlined"
+            styleClass="btn-coursera-secondary"
+            routerLink="/question-table"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
