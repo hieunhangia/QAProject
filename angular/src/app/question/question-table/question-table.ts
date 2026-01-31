@@ -26,29 +26,22 @@ export class QuestionTable implements OnInit {
   loading = true;
 
   ngOnInit(): void {
-     this.loadQuestion(0, 10);
+    // Data load via onLazyLoad khi table init
   }
 
   loadQuestion(skipCount: number, maxResultCount: number) {
+    this.loading = true;
     this.questionService
       .getList({ maxResultCount, skipCount, sorting: 'lastModificationTime DESC' })
       .subscribe((res: PagedResultDto<User.Questions.QuestionSummaryDto>) => {
         const items = res.items ?? [];
-
-        this.recentQuestions = items.filter(item =>{ 
-          if(item.status){
-            console.log('Tìm thấy status: ' + item.status + 'và === ' + QaStatus.Open) 
-          } 
-          return item.status === QaStatus.Open
-        });
-        this.totalQuestions = res.totalCount ?? items.length;
+        this.recentQuestions = items.filter(item => item.status === QaStatus.Open);
+        this.totalQuestions = res.totalCount ?? 0;
         this.loading = false;
-      })
+      });
   }
 
-  onPageChange(event: any){
-    const skip = event.first; // vị trí record đầu tiên
-    const take = event.rows; // số record mỗi trang
-    this.loadQuestion(skip, take);
+  onPageChange(event: { first: number; rows: number }) {
+    this.loadQuestion(event.first, event.rows);
   }
 }
