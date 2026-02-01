@@ -24,7 +24,7 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
             QuestionDetailDto,
             QuestionSummaryDto,
             Guid,
-            PagedAndSortedResultRequestDto,
+            GetListQuestionsDto,
             CreateQuestionDto, UpdateQuestionDto>(repository),
         IQuestionAppService
 {
@@ -50,13 +50,26 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
         return await MapToGetOutputDtoAsync(question);
     }
 
-    public override async Task<PagedResultDto<QuestionSummaryDto>> GetListAsync(PagedAndSortedResultRequestDto input)
+    public override async Task<PagedResultDto<QuestionSummaryDto>> GetListAsync(GetListQuestionsDto input)
     {
         var query = await CreateFilteredQueryAsync(input);
         query = query
             .Include(q => q.Assignee)
             .Include(q => q.LastModifier)
             .Where(q => q.CreatorId == CurrentUser.Id);
+
+
+        input.Q = input.Q?.Trim() ?? string.Empty;
+        if (!string.IsNullOrEmpty(input.Q))
+        {
+            query = query.Where(q => q.Title.Contains(input.Q) || q.Content.Contains(input.Q));
+        }
+
+        if (input.Status.HasValue)
+        {
+            query = query.Where(q => q.Status == input.Status.Value);
+        }
+
         var totalCount = await AsyncExecuter.CountAsync(query);
 
         var entityDtos = new List<QuestionSummaryDto>();
