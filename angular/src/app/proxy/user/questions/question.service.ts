@@ -1,6 +1,6 @@
-import type { CreateQuestionDto, CreateUpdateMessageDto, QuestionDetailDto, QuestionSummaryDto, UpdateQuestionDto } from './models';
+import type { CreateQuestionDto, CreateUpdateMessageDto, GetListQuestionsDto, QuestionDetailDto, QuestionSummaryDto, UpdateQuestionDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
-import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
+import type { PagedResultDto } from '@abp/ng.core';
 import { Injectable, inject } from '@angular/core';
 import type { QaStatus } from '../../questions/qa-status.enum';
 
@@ -38,11 +38,11 @@ export class QuestionService {
     { apiName: this.apiName,...config });
   
 
-  getList = (input: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
+  getList = (input: GetListQuestionsDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<QuestionSummaryDto>>({
       method: 'GET',
       url: '/api/app/question',
-      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { q: input.q, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
   

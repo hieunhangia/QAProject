@@ -81,9 +81,15 @@ $bg-light: #F8F9FA;
 /* Buttons - đồng bộ với question-table, chữ căn giữa */
 ::ng-deep .btn-coursera-primary,
 ::ng-deep .btn-coursera-secondary {
-  display: inline-flex !important;
+  display: flex !important;
+  
   justify-content: center !important;
+  /* Căn giữa theo chiều ngang */
   align-items: center !important;
+  /* Căn giữa theo chiều dọc */
+  width: 100%;
+  /* Hoặc một độ rộng cố định nếu cần */
+  min-height: 40px;
 
   .p-button-label {
     flex: 0 0 auto;

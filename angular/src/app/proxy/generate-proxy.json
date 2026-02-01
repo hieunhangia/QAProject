@@ -873,17 +873,17 @@
       "rootPath": "app",
       "remoteServiceName": "Default",
       "controllers": {
-        "QAProject.BA.Questions.QuestionAppService": {
-          "controllerName": "Question",
-          "controllerGroupName": "Question",
+        "QAProject.BA.Questions.BaQuestionAppService": {
+          "controllerName": "BaQuestion",
+          "controllerGroupName": "BaQuestion",
           "isRemoteService": true,
           "isIntegrationService": false,
           "apiVersion": null,
-          "type": "QAProject.BA.Questions.QuestionAppService",
+          "type": "QAProject.BA.Questions.BaQuestionAppService",
           "interfaces": [
             {
-              "type": "QAProject.BA.Questions.IQuestionAppService",
-              "name": "IQuestionAppService",
+              "type": "QAProject.BA.Questions.IBaQuestionAppService",
+              "name": "IBaQuestionAppService",
               "methods": [
                 {
                   "name": "GetListQuestionAsync",
@@ -918,6 +918,65 @@
                     "type": "QAProject.User.Questions.MessageDto",
                     "typeSimple": "QAProject.User.Questions.MessageDto"
                   }
+                },
+                {
+                  "name": "GetMessagesAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "questionId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Collections.Generic.List<QAProject.User.Questions.MessageDto>",
+                    "typeSimple": "[QAProject.User.Questions.MessageDto]"
+                  }
+                },
+                {
+                  "name": "UpdateMessageAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "messageId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "input",
+                      "typeAsString": "QAProject.User.Questions.CreateUpdateMessageDto, QAProject.Application.Contracts",
+                      "type": "QAProject.User.Questions.CreateUpdateMessageDto",
+                      "typeSimple": "QAProject.User.Questions.CreateUpdateMessageDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "QAProject.User.Questions.MessageDto",
+                    "typeSimple": "QAProject.User.Questions.MessageDto"
+                  }
+                },
+                {
+                  "name": "DeleteMessageAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "messageId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
                 }
               ]
             }
@@ -927,7 +986,7 @@
               "uniqueName": "GetListQuestionAsyncByInput",
               "name": "GetListQuestionAsync",
               "httpMethod": "GET",
-              "url": "api/app/question/question",
+              "url": "api/app/ba-question/question",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -1005,14 +1064,14 @@
                 "type": "Volo.Abp.Application.Dtos.PagedResultDto<QAProject.BA.Questions.QuestionDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<QAProject.BA.Questions.QuestionDto>"
               },
-              "allowAnonymous": null,
-              "implementFrom": "QAProject.BA.Questions.IQuestionAppService"
+              "allowAnonymous": false,
+              "implementFrom": "QAProject.BA.Questions.IBaQuestionAppService"
             },
             "SendMessageAsyncByInput": {
               "uniqueName": "SendMessageAsyncByInput",
               "name": "SendMessageAsync",
               "httpMethod": "POST",
-              "url": "api/app/question/send-message",
+              "url": "api/app/ba-question/send-message",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -1042,8 +1101,139 @@
                 "type": "QAProject.User.Questions.MessageDto",
                 "typeSimple": "QAProject.User.Questions.MessageDto"
               },
-              "allowAnonymous": null,
-              "implementFrom": "QAProject.BA.Questions.IQuestionAppService"
+              "allowAnonymous": false,
+              "implementFrom": "QAProject.BA.Questions.IBaQuestionAppService"
+            },
+            "GetMessagesAsyncByQuestionId": {
+              "uniqueName": "GetMessagesAsyncByQuestionId",
+              "name": "GetMessagesAsync",
+              "httpMethod": "GET",
+              "url": "api/app/ba-question/messages/{questionId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "questionId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "questionId",
+                  "name": "questionId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Collections.Generic.List<QAProject.User.Questions.MessageDto>",
+                "typeSimple": "[QAProject.User.Questions.MessageDto]"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "QAProject.BA.Questions.IBaQuestionAppService"
+            },
+            "UpdateMessageAsyncByMessageIdAndInput": {
+              "uniqueName": "UpdateMessageAsyncByMessageIdAndInput",
+              "name": "UpdateMessageAsync",
+              "httpMethod": "PUT",
+              "url": "api/app/ba-question/message/{messageId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "messageId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "QAProject.User.Questions.CreateUpdateMessageDto, QAProject.Application.Contracts",
+                  "type": "QAProject.User.Questions.CreateUpdateMessageDto",
+                  "typeSimple": "QAProject.User.Questions.CreateUpdateMessageDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "messageId",
+                  "name": "messageId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "QAProject.User.Questions.CreateUpdateMessageDto",
+                  "typeSimple": "QAProject.User.Questions.CreateUpdateMessageDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "QAProject.User.Questions.MessageDto",
+                "typeSimple": "QAProject.User.Questions.MessageDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "QAProject.BA.Questions.IBaQuestionAppService"
+            },
+            "DeleteMessageAsyncByMessageId": {
+              "uniqueName": "DeleteMessageAsyncByMessageId",
+              "name": "DeleteMessageAsync",
+              "httpMethod": "DELETE",
+              "url": "api/app/ba-question/message/{messageId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "messageId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "messageId",
+                  "name": "messageId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "QAProject.BA.Questions.IBaQuestionAppService"
             }
           }
         },
@@ -1296,9 +1486,9 @@
                   "parametersOnMethod": [
                     {
                       "name": "input",
-                      "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
-                      "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
-                      "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                      "typeAsString": "QAProject.User.Questions.GetListQuestionsDto, QAProject.Application.Contracts",
+                      "type": "QAProject.User.Questions.GetListQuestionsDto",
+                      "typeSimple": "QAProject.User.Questions.GetListQuestionsDto",
                       "isOptional": false,
                       "defaultValue": null
                     }
@@ -1406,7 +1596,7 @@
                 "typeSimple": "QAProject.User.Questions.QuestionDetailDto"
               },
               "allowAnonymous": false,
-              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<QAProject.User.Questions.QuestionDetailDto,QAProject.User.Questions.QuestionSummaryDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<QAProject.User.Questions.QuestionDetailDto,QAProject.User.Questions.QuestionSummaryDto,System.Guid,QAProject.User.Questions.GetListQuestionsDto>"
             },
             "GetListAsyncByInput": {
               "uniqueName": "GetListAsyncByInput",
@@ -1417,14 +1607,38 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
-                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
-                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "typeAsString": "QAProject.User.Questions.GetListQuestionsDto, QAProject.Application.Contracts",
+                  "type": "QAProject.User.Questions.GetListQuestionsDto",
+                  "typeSimple": "QAProject.User.Questions.GetListQuestionsDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
               ],
               "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Q",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Status",
+                  "jsonName": null,
+                  "type": "QAProject.Questions.QaStatus?",
+                  "typeSimple": "enum?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
                 {
                   "nameOnMethod": "input",
                   "name": "Sorting",
@@ -1467,7 +1681,7 @@
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<QAProject.User.Questions.QuestionSummaryDto>"
               },
               "allowAnonymous": false,
-              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<QAProject.User.Questions.QuestionDetailDto,QAProject.User.Questions.QuestionSummaryDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<QAProject.User.Questions.QuestionDetailDto,QAProject.User.Questions.QuestionSummaryDto,System.Guid,QAProject.User.Questions.GetListQuestionsDto>"
             },
             "CreateAsyncByInput": {
               "uniqueName": "CreateAsyncByInput",
@@ -4760,6 +4974,41 @@
           "maximum": null,
           "regex": null,
           "isNullable": false
+        }
+      ]
+    },
+    "QAProject.User.Questions.GetListQuestionsDto": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Q",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": true
+        },
+        {
+          "name": "Status",
+          "jsonName": null,
+          "type": "QAProject.Questions.QaStatus?",
+          "typeSimple": "enum?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null,
+          "isNullable": true
         }
       ]
     },

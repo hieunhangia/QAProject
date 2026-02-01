@@ -50,6 +50,7 @@ export class HomeComponent {
           const currentUserName = this.currentUser?.userName?.toLowerCase();
           this.assignedToMe = items.filter(q => q.assigneeName?.toLowerCase() === currentUserName).length;
           this.totalResolved = items.filter(q => q.status === QaStatus.Closed).length;
+          console.log(this.currentUser.roles)
         });
     }
   }

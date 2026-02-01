@@ -3,6 +3,7 @@ import { FormsModule, FormGroup, ReactiveFormsModule, FormBuilder, Validators } 
 import { Router, RouterModule } from '@angular/router';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { User } from '../../proxy';
+import { CreateQuestionDto } from 'src/app/proxy/user/questions';
 import { AssigneeService } from '../../proxy/user/assignees/assignee.service';
 import { AssigneeDto } from '../../proxy/user/assignees';
 import { CommonModule } from '@angular/common';
@@ -72,15 +73,15 @@ export class QuestionCreate {
 
   onSubmit() {
     if (this.questionForm.invalid) {
-      this.questionForm.markAllAsTouched();
+      this.questionForm.markAllAsTouched(); //Đánh dấu tất cả các field trong questionForm là touched
       return;
     }
     this.submitting = true;
-    const input = this.questionForm.getRawValue() as { title: string; content: string; assigneeId: string };
+    const input = this.questionForm.getRawValue() as CreateQuestionDto;
     this.questionService.create(input).subscribe({
       next: () => {
         this.toaster.success('Question created successfully.', 'Success');
-        this.router.navigate(['/question-table']);
+        this.router.navigate(['/question/list']);
       },
       error: () => {
         this.submitting = false;

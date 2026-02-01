@@ -1,4 +1,4 @@
-import type { AuditedEntityDto, CreationAuditedEntityDto } from '@abp/ng.core';
+import type { AuditedEntityDto, CreationAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import type { QaStatus } from '../../questions/qa-status.enum';
 
 export interface CreateQuestionDto {
@@ -9,6 +9,11 @@ export interface CreateQuestionDto {
 
 export interface CreateUpdateMessageDto {
   content: string;
+}
+
+export interface GetListQuestionsDto extends PagedAndSortedResultRequestDto {
+  q?: string | null;
+  status?: QaStatus | null;
 }
 
 export interface MessageDto extends CreationAuditedEntityDto<string> {
