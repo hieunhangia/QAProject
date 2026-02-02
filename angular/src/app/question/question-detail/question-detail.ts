@@ -136,7 +136,7 @@ canEdit(msg: MessageDto) {
           next: () => {
             this.toaster.success('Question closed successfully.', 'Success');
             this.loadQuestionDetail();
-            this.router.navigate(['/question', 'list']);
+            this.router.navigate(['/question', id]);
           },
           error: () => {
             this.toaster.error('Failed to closed question. Please try again.', 'Error');
