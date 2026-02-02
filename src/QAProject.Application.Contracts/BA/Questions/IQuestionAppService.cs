@@ -14,10 +14,9 @@ namespace QAProject.BA.Questions
         Task<MessageDto> SendMessageAsync(SendMessageDto input);
         Task<List<MessageDto>> GetMessagesAsync(Guid questionId);
 
-        // Cập nhật tin nhắn
+        
         Task<MessageDto> UpdateMessageAsync(Guid messageId, CreateUpdateMessageDto input);
 
-        // Xóa tin nhắn
-        Task DeleteMessageAsync(Guid messageId);
+       
     }
 }

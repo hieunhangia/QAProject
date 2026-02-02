@@ -8,8 +8,7 @@ namespace QAProject.BA.Questions
 {
     public class GetQuestionListInput : PagedAndSortedResultRequestDto
     {
-        public Guid? AssigneeId { get; set; }
-        // Bạn có thể thêm filter theo Status nếu muốn
+      
         public QaStatus? Status { get; set; }
     }
 }

@@ -17,6 +17,7 @@ using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Linq;
 using Volo.Abp.ObjectMapping;
+using Volo.Abp.Users;
 
 
 namespace QAProject.BA.Questions
@@ -38,7 +39,7 @@ namespace QAProject.BA.Questions
 
            
             queryable = queryable
-                .WhereIf(input.AssigneeId.HasValue, x => x.AssigneeId == input.AssigneeId)
+                .Where( x => x.AssigneeId == CurrentUser.Id)
                 .WhereIf(input.Status.HasValue, x => x.Status == input.Status);
 
            
@@ -67,7 +68,12 @@ namespace QAProject.BA.Questions
                 throw new UserFriendlyException("Cuộc hội thoại này đã đóng, bạn không thể gửi thêm tin nhắn.");
             }
 
-            
+            if (question.AssigneeId != CurrentUser.Id)
+            {
+                throw new AbpAuthorizationException("Bạn không có quyền thêm tin nhắn vào câu hỏi này.");
+            }
+
+
             question.AddMessage(input.Content);
 
            
@@ -105,6 +111,11 @@ namespace QAProject.BA.Questions
             if (question == null) throw new EntityNotFoundException(typeof(Message), messageId);
 
             if (question.Status == QaStatus.Closed)
+            {
+                throw new UserFriendlyException("Cuộc hội thoại này đã đóng. Mọi chỉnh sửa đều không được phép.");
+            }
+
+            if (question.Status == QaStatus.Closed)
                 throw new UserFriendlyException("Không thể sửa tin nhắn trong câu hỏi đã đóng.");
 
             var message = question.Messages.First(m => m.Id == messageId);
@@ -124,26 +135,6 @@ namespace QAProject.BA.Questions
             return ObjectMapper.Map<Message, MessageDto>(message);
         }
 
-        public async Task DeleteMessageAsync(Guid messageId)
-        {
-            var queryable = await _questionRepository.WithDetailsAsync(q => q.Messages);
-            var question = await queryable.FirstOrDefaultAsync(q => q.Messages.Any(m => m.Id == messageId));
-
-            if (question == null) return;
-
-            if (question.Status == QaStatus.Closed)
-                throw new UserFriendlyException("Không thể xóa tin nhắn trong câu hỏi đã đóng.");
-
-            var message = question.Messages.First(m => m.Id == messageId);
-
-            
-            if (message.CreatorId != CurrentUser.Id && !CurrentUser.IsInRole(Roles.Admin))
-            {
-                throw new AbpAuthorizationException("Bạn không có quyền xóa tin nhắn này.");
-            }
-
-            question.Messages.Remove(message);
-            await _questionRepository.UpdateAsync(question);
-        }
+       
     }
 }
