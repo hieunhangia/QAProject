@@ -138,8 +138,8 @@ canEdit(msg: MessageDto) {
             this.loadQuestionDetail();
             this.router.navigate(['/question', id]);
           },
-          error: () => {
-            this.toaster.error('Failed to closed question. Please try again.', 'Error');
+          error: (err) => {
+            this.toaster.error(err.error?.error?.message);
           }
         });
       }
