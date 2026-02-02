@@ -5,6 +5,5 @@ namespace QAProject.User.Assignees;
 
 public class GetAssigneeDto : LimitedResultRequestDto
 {
-    [Required]
     public string? AssigneeName { get; set; }
 }
