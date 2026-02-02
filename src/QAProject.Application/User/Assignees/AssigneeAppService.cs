@@ -19,7 +19,6 @@ public class AssigneeAppService(
     : ReadOnlyAppService<IdentityUser, AssigneeDto, Guid, GetAssigneeDto>(repository),
         IAssigneeAppService
 {
-    
     protected override async Task<IQueryable<IdentityUser>> CreateFilteredQueryAsync(GetAssigneeDto input)
     {
         var query = await base.CreateFilteredQueryAsync(input);
@@ -29,10 +28,10 @@ public class AssigneeAppService(
         query = assigneeRole != null
             ? query.Where(u => u.Roles.Any(r => r.RoleId == assigneeRole.Id))
             : query.Where(u => false);
-        
+        query = query.OrderBy(u => u.Name);
         return query;
     }
-    
+
     [HttpGet("assignee/{id:guid}")]
     public override Task<AssigneeDto> GetAsync(Guid id) => base.GetAsync(id);
 

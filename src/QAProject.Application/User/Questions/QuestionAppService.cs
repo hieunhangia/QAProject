@@ -47,6 +47,8 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
             throw new AbpAuthorizationException("Bạn không có quyền truy cập câu hỏi này.");
         }
 
+        question.Messages = question.Messages.OrderBy(m => m.CreationTime).ToList();
+
         return await MapToGetOutputDtoAsync(question);
     }
 
@@ -212,9 +214,9 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
             throw new UserFriendlyException("Không thể cập nhật tin nhắn trong câu hỏi đã đóng.");
         }
 
-        if (question.Messages.Any(m => m.CreationTime > message.CreationTime))
+        if (message.CreationTime.AddHours(1) < DateTime.Now)
         {
-            throw new UserFriendlyException("Chỉ có thể cập nhật tin nhắn mới nhất.");
+            throw new UserFriendlyException("Chỉ có thể cập nhật tin nhắn trong vòng 1 giờ sau khi tạo.");
         }
 
         message.Content = input.Content;
