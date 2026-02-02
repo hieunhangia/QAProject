@@ -52,7 +52,7 @@ export class QuestionCreate {
     const query = event.query?.trim() ?? '';
     this.assigneeService
       .getList({
-        maxResultCount: 50,
+        maxResultCount: 5,
         assigneeName: query
       })
       .subscribe(res => {

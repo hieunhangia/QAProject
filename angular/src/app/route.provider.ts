@@ -42,18 +42,10 @@ function configureRoutes() {
         },
         {
           path: '/question/list',
-          name: 'All Questions',
+          name: 'Questions Catalog',
           parentName: 'Questions',
           iconClass: 'fas fa-clipboard-list',
           order: 1,
-          layout: eLayoutType.application,
-        },
-        {
-          path: '/question/history',
-          name: 'History',
-          parentName: 'Questions',
-          iconClass: 'fas fa-history',
-          order: 2,
           layout: eLayoutType.application,
         },
         {

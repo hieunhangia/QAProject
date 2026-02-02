@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { AuthService, ConfigStateService, LocalizationPipe, type ApplicationConfigurationDto, type PagedResultDto } from '@abp/ng.core';
+import { AuthService, ConfigStateService, type ApplicationConfigurationDto, type PagedResultDto } from '@abp/ng.core';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';

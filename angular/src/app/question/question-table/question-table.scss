@@ -20,7 +20,7 @@ $bg-light: #F8F9FA;
 }
 
 .header-container {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
 
     .main-title {
         font-size: 2.4rem !important;
@@ -50,6 +50,79 @@ $bg-light: #F8F9FA;
 
         .p-button-icon {
             font-size: 0.85rem;
+        }
+    }
+}
+
+/* Filter Bar */
+.filter-bar {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-end;
+    margin-bottom: 1.5rem;
+    padding: 1.25rem 1.5rem;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #D1D7DC;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        flex: 1;
+
+        .filter-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: $text-main;
+        }
+
+        ::ng-deep .filter-search-input {
+            width: 100%;
+            padding: 0.6rem 0.75rem 0.6rem 2.5rem !important;
+            border-radius: 8px !important;
+            border: 1px solid #D1D5DB !important;
+            font-size: 0.9rem !important;
+
+            &:focus {
+                border-color: $blue !important;
+                box-shadow: 0 0 0 1px rgba(0, 86, 210, 0.15) !important;
+            }
+        }
+
+        .p-input-icon-left {
+            width: 100%;
+
+            .pi-search {
+                left: 0.85rem;
+                color: $text-sub;
+                font-size: 0.9rem;
+            }
+        }
+
+        ::ng-deep .filter-status-select {
+            width: 100%;
+
+            .p-select {
+                width: 100%;
+                border-radius: 8px !important;
+                border: 1px solid #D1D5DB !important;
+
+                .p-select-label {
+                    padding: 0.6rem 0.75rem !important;
+                    font-size: 0.9rem !important;
+                }
+
+                &:not(.p-disabled):hover {
+                    border-color: $blue !important;
+                }
+
+                &:not(.p-disabled).p-focus {
+                    border-color: $blue !important;
+                    box-shadow: 0 0 0 1px rgba(0, 86, 210, 0.15) !important;
+                }
+            }
         }
     }
 }
@@ -288,4 +361,31 @@ $bg-light: #F8F9FA;
     font-size: 0.9rem;
     font-weight: 500;
     color: #1F1F1F;
+}
+
+/* Confirm dialog buttons */
+::ng-deep .btn-confirm-primary {
+    background-color: $blue !important;
+    border-color: $blue !important;
+
+    .p-button-label {
+        color: #ffffff !important;
+        font-weight: 500 !important;
+    }
+
+    &:hover {
+        background-color: $blue-hover !important;
+        border-color: $blue-hover !important;
+    }
+}
+
+::ng-deep .btn-confirm-secondary {
+    .p-button-label {
+        color: $text-sub !important;
+        font-weight: 500 !important;
+    }
+
+    &:hover {
+        background-color: #F3F4F6 !important;
+    }
 }

@@ -1,16 +1,45 @@
 <div class="coursera-layout">
     <div class="coursera-wrapper">
+        <p-confirmDialog></p-confirmDialog>
+
         <div class="header-container flex justify-content-between align-items-center">
             <div class="header-text">
-                <h1 class="main-title">{{ mode === 'open' ? 'Questions Catalog' : 'Questions History' }}</h1>
-                <p class="sub-title">{{ mode === 'open' ? 'Manage and track all community discussions in real-time.' : 'View all closed questions and their resolution history.' }}</p>
+                <h1 class="main-title">Questions Catalog</h1>
+                <p class="sub-title">Manage and track all community discussions in real-time.</p>
             </div>
-            <p-button *ngIf="mode === 'open'" label="CREATE NEW QUESTION" icon="pi pi-plus" size="large" styleClass="btn-coursera-primary"
+            <p-button label="CREATE QUESTION" icon="pi pi-plus" size="large" styleClass="btn-coursera-primary"
                 routerLink="/question/create">
             </p-button>
-            <p-button *ngIf="mode === 'closed'" label="QUESTIONS CATALOG" icon="pi pi-clipboard" size="large" styleClass="btn-coursera-primary"
-                routerLink="/question/list">
-            </p-button>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label class="filter-label">Search</label>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Search by title or content..."
+                        [value]="searchQuery"
+                        (input)="onSearchChange($event)"
+                        class="filter-search-input">
+                </span>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label">Status</label>
+                <p-select
+                    [options]="statusOptions"
+                    [(ngModel)]="selectedStatus"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="All Status"
+                    (onChange)="onStatusChange()"
+                    styleClass="filter-status-select">
+                </p-select>
+            </div>
         </div>
 
         <div class="table-card shadow-sm">
@@ -39,8 +68,8 @@
                             <p class="snippet-text">{{ q.content | slice:0:150 }}...</p>
                         </td>
                         <td class="text-center">
-                            <p-tag [value]="mode === 'open' ? 'Open' : 'Closed'" 
-                                   [styleClass]="mode === 'open' ? 'tag-pill-coursera' : 'tag-pill-closed'"></p-tag>
+                            <p-tag [value]="q.status === 0 ? 'Open' : 'Closed'" 
+                                   [styleClass]="q.status === 0 ? 'tag-pill-coursera' : 'tag-pill-closed'"></p-tag>
                         </td>
                         <td>
                             <div class="flex align-items-center">
@@ -51,24 +80,10 @@
                             </div>
                         </td>
                         <td class="text-center">
-                            <div *ngIf="mode === 'open'">
-                                <p-button label="Detail" icon="pi pi-eye" styleClass="btn-view-detail-primary"
-                                    pTooltip="View Detail" tooltipPosition="bottom"
-                                    (onClick)="viewDetail(q.id)">
-                                </p-button>
-                            </div>
-                            <div *ngIf="mode === 'closed'" class="kebab-menu-container">
-                                <p-button icon="pi pi-ellipsis-h" 
-                                    styleClass="btn-kebab-menu"
-                                    [rounded]="true"
-                                    (onClick)="menu.toggle($event)"
-                                    pTooltip="More actions" tooltipPosition="left">
-                                </p-button>
-                                <p-menu #menu [model]="getMenuItems(q.id)" [popup]="true" 
-                                    [appendTo]="'body'"
-                                    styleClass="actions-menu-dropdown">
-                                </p-menu>
-                            </div>
+                            <p-button label="Detail" icon="pi pi-eye" styleClass="btn-view-detail-primary"
+                                pTooltip="View Detail" tooltipPosition="bottom"
+                                (onClick)="viewDetail(q.id)">
+                            </p-button>
                         </td>
                     </tr>
                 </ng-template>
