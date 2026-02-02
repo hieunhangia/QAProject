@@ -1,5 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+/* Trong file styles.scss */
+@import "primeicons/primeicons.css";
 
+/* Assignee AutoComplete - overlay render ngoài component, cần override global để chữ không đen xì */
+.assignee-autocomplete-panel,
+.p-autocomplete-overlay.assignee-autocomplete-panel,
+.assignee-autocomplete-panel .p-autocomplete-list,
+.assignee-autocomplete-panel .p-autocomplete-option,
+.assignee-autocomplete-panel [data-pc-section="list"],
+.assignee-autocomplete-panel [data-pc-section="item"] {
+  background: #ffffff !important;
+  color: #2d3748 !important;
+  border-color: #D1D7DC !important;
+}
+
+.assignee-autocomplete-panel .p-autocomplete-option:hover,
+.assignee-autocomplete-panel .p-autocomplete-option.p-highlight,
+.assignee-autocomplete-panel [data-pc-section="item"]:hover,
+.assignee-autocomplete-panel [data-pc-section="item"].p-highlight {
+  background: #E8F0FE !important;
+  color: #0056D2 !important;
+}
+
+.assignee-autocomplete-panel .assignee-item-name,
+.assignee-autocomplete-panel .p-autocomplete-option span,
+.assignee-autocomplete-panel [data-pc-section="item"] span {
+  color: inherit !important;
+}
+
+/* Fallback: mọi AutoComplete overlay nếu theme tối đè lên */
+.p-autocomplete-overlay .p-autocomplete-list,
+.p-autocomplete-overlay .p-autocomplete-option {
+  background: #ffffff !important;
+  color: #2d3748 !important;
+}
+
+.p-autocomplete-overlay .p-autocomplete-option:hover,
+.p-autocomplete-overlay .p-autocomplete-option.p-highlight {
+  background: #E8F0FE !important;
+  color: #0056D2 !important;
+}
 
 :root {
   --lpx-theme-light-bg: url('assets/images/login/login-bg-img-light.svg');

@@ -23,4 +23,27 @@ export const APP_ROUTES: Routes = [
     path: 'setting-management',
     loadChildren: () => import('@abp/ng.setting-management').then(c => c.createRoutes()),
   },
+  {
+    path: 'question',
+    children: [
+      {
+        path: '', // Khớp với đường dẫn /question
+        redirectTo: 'list',
+        pathMatch: 'full'
+      },
+      {
+        path: 'history', // Khớp với đường dẫn /question
+        loadComponent: () => import('./question/question-table/question-table').then(c => c.QuestionTable),
+        data: { mode: 'closed' }
+      },
+      {
+        path: 'list', // Khớp với đường dẫn /question
+        loadComponent: () => import('./question/question-table/question-table').then(c => c.QuestionTable)
+      },
+      {
+        path: 'create',
+        loadComponent: () => import('./question/question-create/question-create').then(c => c.QuestionCreate)
+      },
+    ],
+  },
 ];

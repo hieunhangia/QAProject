@@ -1,11 +1,13 @@
 @page
-@model Volo.Abp.Account.Web.Pages.Account.LoginModel
+@using Volo.Abp.Account.Web.Pages.Account
+@model LoginModel
 @{
     Layout = null;
 }
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <title>Login | QAProject Portal</title>
@@ -13,17 +15,18 @@
     <link rel="stylesheet" href="~/css/login.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 </head>
+
 <body>
     <div class="login-page">
         <div class="login-left">
             <div class="brand">
                 <span class="brand-icon">?</span> QAProject Portal
             </div>
-            
+
             <div class="hero-content">
                 <h1>Questions answered. <br />Solutions delivered.</h1>
                 <p>
-                    A centralized platform designed to streamline communication. 
+                    A centralized platform designed to streamline communication.
                     Ask questions, provide answers, and track every resolution in one place.
                 </p>
 
@@ -51,7 +54,7 @@
                     </li>
                 </ul>
             </div>
-            
+
             <div class="login-footer-text">
                 © 2026 QAProject Enterprise System
             </div>
@@ -62,35 +65,32 @@
                 <h2>Welcome back</h2>
                 <p class="subtitle">Please log in to access your dashboard</p>
 
+                @* Hiển thị mọi Page Alerts (ABP tự set khi đăng nhập sai) *@
+                @await Component.InvokeAsync("PageAlerts", new { name = "" })
+
                 <form method="post">
+                    <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
                         <label>Username or Email</label>
-                        <input asp-for="LoginInput.UserNameOrEmailAddress" class="form-control" placeholder="Enter your account" />
+                        <input asp-for="LoginInput.UserNameOrEmailAddress" class="form-control"
+                            placeholder="Enter your account" required />
                         <span asp-validation-for="LoginInput.UserNameOrEmailAddress" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label>Password</label>
-                        <input asp-for="LoginInput.Password" type="password" class="form-control" placeholder="Enter your password" />
+                        <input asp-for="LoginInput.Password" type="password" class="form-control"
+                            placeholder="Enter your password" required />
                         <span asp-validation-for="LoginInput.Password" class="text-danger"></span>
                     </div>
-
-                    <div class="form-options">
-                        <label class="remember-me">
-                            <input asp-for="LoginInput.RememberMe" />
-                            <span>Keep me logged in</span>
-                        </label>
-                        <a href="/Account/ForgotPassword" class="forgot-link">Forgot password?</a>
-                    </div>
-
                     <button type="submit" class="btn-login">Sign In</button>
                 </form>
-
-                <div class="register-link">
-                    Don't have an account? <a href="/Account/Register">Register now</a>
-                </div>
             </div>
         </div>
     </div>
+    <abp-script-bundle name="Account.Login" />
+    <script src="~/libs/jquery/jquery.min.js"></script>
+    <script src="~/libs/jquery-validation/jquery.validate.min.js"></script>
+    <script src="~/libs/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
 </body>
-</html>

@@ -48,6 +48,63 @@
       }
     }
 
+    /* Logged-in dashboard styling */
+    .dashboard-area {
+      max-width: 1200px;
+      margin: 0 auto;
+
+      .header-nav {
+        .header-kicker {
+          text-transform: uppercase;
+          letter-spacing: 1.5px;
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: #636363;
+          margin-bottom: 0.75rem;
+        }
+
+        .header-subtitle {
+          max-width: 520px;
+        }
+
+        .user-chip {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+
+          .user-chip-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+
+            .user-name {
+              font-weight: 700;
+              color: #1f1f1f;
+            }
+
+            .user-email {
+              font-size: 0.85rem;
+              color: #636363;
+            }
+          }
+        }
+
+        .header-actions {
+          display: flex;
+          align-items: center;
+
+          .p-button {
+            min-width: 160px;
+          }
+
+          // Tạo khoảng trống rõ ràng giữa 2 nút (không dính sát viền)
+          .p-button + .p-button {
+            margin-left: 12px;
+          }
+        }
+      }
+    }
+
     /* Tinh chỉnh Component PrimeNG v18 */
     ::ng-deep {
       .p-button {
@@ -71,26 +128,60 @@
         }
       }
 
-      /* Card thống kê sạch sẽ */
-      .stat-card {
+      /* Metric cards */
+      .metric-card.p-card {
         background: white;
-        padding: 2.5rem;
-        border-radius: 8px;
-        border: 1px solid #eee;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        
+        padding: 1.75rem 2rem;
+        border-radius: 10px;
+        border: 1px solid #edf1f5;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+
+        .p-card-body {
+          padding: 0;
+        }
+
         .label {
           display: block;
           font-weight: 700;
           color: #636363;
           font-size: 0.8rem;
           text-transform: uppercase;
-          margin-bottom: 1rem;
+          margin-bottom: 0.75rem;
         }
+
         .value {
-          font-size: 3.5rem;
+          font-size: 2.6rem;
           font-weight: 800;
           color: #1f1f1f;
+        }
+
+        .helper {
+          margin-top: 0.5rem;
+          font-size: 0.9rem;
+          color: #6b7280;
+        }
+      }
+
+      /* Data table */
+      .p-datatable {
+        border-radius: 10px;
+        overflow: hidden;
+
+        .p-datatable-header {
+          padding: 1rem 1.25rem;
+        }
+
+        .p-datatable-thead > tr > th {
+          padding: 0.85rem 1.25rem;
+          font-size: 0.85rem;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: #6b7280;
+        }
+
+        .p-datatable-tbody > tr > td {
+          padding: 0.85rem 1.25rem;
+          font-size: 0.95rem;
         }
       }
     }

@@ -1,0 +1,224 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+$blue: #0056D2;
+$blue-hover: #00419e;
+$text-main: #1F1F1F;
+$text-sub: #636363;
+$bg-light: #F8F9FA;
+
+:host {
+  font-family: 'Inter', sans-serif;
+  display: block;
+  background-color: $bg-light;
+  min-height: 100vh;
+}
+
+.coursera-wrapper {
+  max-width: 1350px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.header-container {
+  margin-bottom: 4rem;
+
+  .main-title {
+    font-size: 2.4rem !important;
+    font-weight: 700;
+    color: $text-main;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.04em;
+  }
+
+  .sub-title {
+    font-size: 1.2rem;
+    color: $text-sub;
+  }
+}
+
+.form-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #D1D7DC;
+  padding: 2.5rem;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &.full-width {
+    width: 100%;
+  }
+
+  .field-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $text-main;
+  }
+
+  .p-error {
+    font-size: 0.85rem;
+    color: #dc3545;
+  }
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #F0F0F0;
+}
+
+/* Buttons - đồng bộ với question-table, chữ căn giữa */
+::ng-deep .btn-coursera-primary,
+::ng-deep .btn-coursera-secondary {
+  display: flex !important;
+  
+  justify-content: center !important;
+  /* Căn giữa theo chiều ngang */
+  align-items: center !important;
+  /* Căn giữa theo chiều dọc */
+  width: 100%;
+  /* Hoặc một độ rộng cố định nếu cần */
+  min-height: 40px;
+
+  .p-button-label {
+    flex: 0 0 auto;
+  }
+}
+
+::ng-deep .btn-coursera-primary {
+  background-color: $blue !important;
+  border: none !important;
+  padding: 0.5rem 1rem !important;
+
+  .p-button-label {
+    font-size: 0.8rem !important;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #F0F2F3;
+  }
+
+  .p-button-icon {
+    font-size: 0.85rem;
+  }
+
+  &:hover {
+    background-color: $blue-hover !important;
+  }
+}
+
+::ng-deep .btn-coursera-secondary {
+  color: $blue !important;
+  border: 1px solid $blue !important;
+  background: transparent !important;
+
+  .p-button-label {
+    font-size: 0.8rem !important;
+    font-weight: 500;
+  }
+
+  &:hover {
+    background: rgba(0, 86, 210, 0.04) !important;
+  }
+}
+
+/* AutoComplete - dropdown hiện ~5 assignee, scroll để xem thêm */
+::ng-deep .autocomplete-coursera {
+  .p-autocomplete-input {
+    padding: 0.75rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #D1D7DC;
+    font-size: 0.95rem;
+
+    &:focus {
+      border-color: $blue;
+      box-shadow: 0 0 0 2px rgba(0, 86, 210, 0.15);
+    }
+  }
+
+  .p-autocomplete-dropdown {
+    background: #ffffff;
+    border-color: #D1D7DC;
+    border-radius: 0 6px 6px 0;
+
+    &:hover {
+      background: #f5f5f5;
+    }
+  }
+}
+
+/* Panel dropdown - nền sáng, chữ tối rõ ràng; hover nổi bật */
+::ng-deep .p-autocomplete-overlay {
+  max-height: 200px !important;
+  border-radius: 8px !important;
+  border: 1px solid #D1D7DC !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  background: #ffffff !important;
+
+  .p-autocomplete-list {
+    max-height: 200px;
+    overflow-y: auto;
+    background: #ffffff !important;
+  }
+
+  .p-autocomplete-option {
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    background: #ffffff !important;
+    color: #2d3748 !important;
+
+    &:hover {
+      background: #E8F0FE !important;
+      color: $blue !important;
+    }
+
+    &.p-highlight {
+      background: #E8F0FE !important;
+      color: $blue !important;
+    }
+  }
+}
+
+.assignee-item {
+  padding: 0.25rem 0;
+
+  .assignee-item-name {
+    font-weight: 500;
+    color: #2d3748;
+  }
+}
+
+/* Avatar trong list - nền xanh nhạt thay vì đen để dễ đọc */
+::ng-deep .p-autocomplete-overlay .avatar-sm {
+  background: $blue !important;
+  color: #ffffff !important;
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+  font-size: 0.8rem !important;
+}
+
+/* Avatar khi đã chọn (trong input) */
+::ng-deep .autocomplete-coursera .avatar-sm {
+  background: $blue !important;
+  color: #ffffff !important;
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+  font-size: 0.8rem !important;
+}
+
+.assignee-empty {
+  padding: 1rem;
+  text-align: center;
+  color: $text-sub;
+  font-size: 0.9rem;
+}

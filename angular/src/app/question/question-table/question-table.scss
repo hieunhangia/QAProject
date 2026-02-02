@@ -1,0 +1,291 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+$blue: #0056D2;
+$blue-hover: #00419e;
+$text-main: #1F1F1F;
+$text-sub: #6d6b6b;
+$bg-light: #F8F9FA;
+
+:host {
+    font-family: 'Inter', sans-serif;
+    display: block;
+    background-color: $bg-light;
+    min-height: 100vh;
+}
+
+.coursera-wrapper {
+    max-width: 1350px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.header-container {
+    margin-bottom: 4rem;
+
+    .main-title {
+        font-size: 2.4rem !important;
+        font-weight: 700;
+        color: $text-main;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.04em;
+    }
+
+    .sub-title {
+        font-size: 1.2rem;
+        color: $text-sub;
+    }
+
+    /* Chỉnh chữ nút Create New Question bé lại */
+    ::ng-deep .btn-coursera-primary {
+        background-color: $blue !important;
+        border: none !important;
+        padding: 1rem 1.5rem !important;
+
+        .p-button-label {
+            font-size: 0.8rem !important;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: #F0F2F3;
+        }
+
+        .p-button-icon {
+            font-size: 0.85rem;
+        }
+    }
+}
+
+.table-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #D1D7DC;
+    overflow: hidden;
+}
+
+/* Custom Table PrimeNG */
+::ng-deep .p-datatable-coursera-v20 {
+    .p-datatable-thead>tr>th {
+        background: #ffffff;
+        color: #6A6F73;
+        font-weight: 700 !important;
+        font-size: 0.8rem !important;
+        padding: 1.25rem 1.5rem !important;
+        border-bottom: 2px solid #F0F2F3 !important;
+        text-transform: uppercase;
+    }
+
+    .p-datatable-tbody>tr {
+        background: #ffffff !important;
+
+        td {
+            padding: 1.25rem 1.5rem !important;
+            border-bottom: 1px solid #F0F0F0 !important;
+            vertical-align: middle;
+        }
+
+        &:hover {
+            background-color: #F9FBFF !important;
+        }
+    }
+
+    /* Chỉnh cỡ chữ Topic bé hơn */
+    .topic-title {
+        color: $blue;
+        font-size: 0.95rem !important;
+        font-weight: 600;
+        cursor: pointer;
+        line-height: 1.4;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .snippet-text {
+        font-size: 0.9rem;
+        color: #404040;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* Paginator */
+    .p-paginator {
+        background: #ffffff !important;
+        padding: 1.5rem !important;
+        border-top: 1px solid #F0F0F0 !important;
+        justify-content: center !important;
+
+        .p-paginator-current {
+            font-size: 0.85rem;
+            color: $text-sub;
+            margin-right: auto;
+        }
+    }
+}
+
+/* --- PHẦN CHỈNH NÚT KEBAB MENU --- */
+.kebab-menu-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+::ng-deep .btn-kebab-menu {
+    background-color: #ffffff !important;
+    border: 1px solid #252525 !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    transition: all 0.2s;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    .p-button-icon {
+        font-size: 1.2rem !important;
+        font-weight: 700 !important;
+        color: #374151 !important;
+    }
+
+    &:hover {
+        background-color: #D1D5DB !important;
+        border-color: #6B7280 !important;
+        
+        .p-button-icon {
+            color: #111827 !important;
+        }
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 2px rgba(0, 86, 210, 0.2) !important;
+    }
+
+    &:active {
+        background-color: #9CA3AF !important;
+    }
+}
+
+::ng-deep .actions-menu-dropdown {
+    min-width: 160px !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    border: 1px solid #E5E7EB !important;
+    
+    .p-menu-list {
+        padding: 0.5rem !important;
+    }
+
+    .p-menuitem {
+        margin-bottom: 0.25rem;
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        .p-menuitem-link {
+            padding: 0.75rem 1rem !important;
+            border-radius: 6px !important;
+            transition: all 0.2s;
+            display: flex !important;
+            align-items: center !important;
+
+            .p-menuitem-icon {
+                font-size: 0.9rem;
+                margin-right: 0.75rem;
+                width: 1.2rem;
+            }
+
+            .p-menuitem-text {
+                font-size: 0.875rem;
+                font-weight: 500;
+            }
+
+            &:hover {
+                background-color: #F9FBFF !important;
+            }
+        }
+
+        // Detail item
+        &:first-child .p-menuitem-link {
+            .p-menuitem-icon {
+                color: $blue !important;
+            }
+            .p-menuitem-text {
+                color: $text-main !important;
+            }
+        }
+
+        // Re-Open item
+        &:last-child .p-menuitem-link {
+            .p-menuitem-icon {
+                color: #28A745 !important;
+            }
+            .p-menuitem-text {
+                color: #28A745 !important;
+            }
+
+            &:hover {
+                background-color: #F0FDF4 !important;
+            }
+        }
+    }
+}
+
+/* --- PHẦN CHỈNH NÚT VIEW DETAIL (CHO MODE OPEN) --- */
+::ng-deep .btn-view-detail-primary {
+    background-color: $blue !important;
+    border: 1px solid $blue !important;
+    border-radius: 4px !important;
+    transition: all 0.2s;
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    .p-button-label {
+        color: #ffffff !important;
+        font-size: 0.75rem !important;
+        font-weight: 500 !important;
+        flex: 0 0 auto !important;
+    }
+
+    .p-button-icon {
+        color: #ffffff !important;
+        font-size: 0.75rem !important;
+    }
+
+    &:hover {
+        background-color: $blue-hover !important;
+        border-color: $blue-hover !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Các thành phần bổ trợ */
+::ng-deep .tag-pill-coursera {
+    background: #E1E9F4 !important;
+    color: $blue !important;
+    font-size: 0.7rem !important;
+    padding: 0.3rem 0.8rem !important;
+    border-radius: 100px !important;
+    font-weight: 700 !important;
+}
+
+::ng-deep .tag-pill-closed {
+    background: #FFE5E5 !important;
+    color: #DC3545 !important;
+    font-size: 0.7rem !important;
+    padding: 0.3rem 0.8rem !important;
+    border-radius: 100px !important;
+    font-weight: 700 !important;
+}
+
+::ng-deep .avatar-black {
+    background: #1F1F1F !important;
+    width: 2.4rem !important;
+    height: 2.4rem !important;
+    font-size: 0.9rem !important;
+}
+
+.assignee-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #1F1F1F;
+}
