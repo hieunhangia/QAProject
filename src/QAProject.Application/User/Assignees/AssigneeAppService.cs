@@ -22,7 +22,11 @@ public class AssigneeAppService(
     protected override async Task<IQueryable<IdentityUser>> CreateFilteredQueryAsync(GetAssigneeDto input)
     {
         var query = await base.CreateFilteredQueryAsync(input);
-        query = query.Where(x => x.Name.ToLower().Contains(input.AssigneeName.ToLower()));
+        var assigneeName = input.AssigneeName?.Trim();
+        if (!string.IsNullOrEmpty(assigneeName))
+        {
+            query = query.Where(x => x.Name.Contains(assigneeName));
+        }
 
         var assigneeRole = await roleRepository.FirstOrDefaultAsync(r => r.Name == Roles.BA);
         query = assigneeRole != null
