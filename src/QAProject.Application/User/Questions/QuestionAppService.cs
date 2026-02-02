@@ -47,6 +47,8 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
             throw new AbpAuthorizationException("Bạn không có quyền truy cập câu hỏi này.");
         }
 
+        question.Messages = question.Messages.OrderBy(m => m.CreationTime).ToList();
+
         return await MapToGetOutputDtoAsync(question);
     }
 

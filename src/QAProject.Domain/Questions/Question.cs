@@ -15,7 +15,7 @@ public class Question : AuditedAggregateRoot<Guid>
     public IdentityUser? Assignee { get; set; }
     public QaStatus Status { get; set; } = QaStatus.Open;
     public DateTime? ClosedAt { get; set; }
-    public ICollection<Message> Messages { get; } = new List<Message>();
+    public ICollection<Message> Messages { get; set; } = new List<Message>();
 
     public void AddMessage(string content) => Messages.Add(new Message { Content = content });
 
