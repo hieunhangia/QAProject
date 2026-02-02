@@ -136,7 +136,7 @@ canEdit(msg: MessageDto) {
           next: () => {
             this.toaster.success('Question closed successfully.', 'Success');
             this.loadQuestionDetail();
-            this.router.navigate(['/question', id]);
+            this.router.navigate(['/question', 'detail', id]);
           },
           error: (err) => {
             this.toaster.error(err.error?.error?.message);
