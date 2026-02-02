@@ -111,6 +111,11 @@ namespace QAProject.BA.Questions
 
             if (message.CreatorId != CurrentUser.Id)
                 throw new AbpAuthorizationException("Bạn không có quyền sửa tin nhắn này.");
+            
+            if (message.CreationTime.AddHours(1) > DateTime.Now)
+            {
+                throw new UserFriendlyException("Chỉ có thể cập nhật tin nhắn trong vòng 1 giờ sau khi tạo.");
+            }
 
             message.Content = input.Content;
 
