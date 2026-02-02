@@ -214,7 +214,7 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
             throw new UserFriendlyException("Không thể cập nhật tin nhắn trong câu hỏi đã đóng.");
         }
 
-        if (message.CreationTime.AddHours(1) > DateTime.Now)
+        if (message.CreationTime.AddHours(1) < DateTime.Now)
         {
             throw new UserFriendlyException("Chỉ có thể cập nhật tin nhắn trong vòng 1 giờ sau khi tạo.");
         }
