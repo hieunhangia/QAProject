@@ -18,6 +18,7 @@ using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Linq;
 using Volo.Abp.ObjectMapping;
 using Volo.Abp.Users;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 
 namespace QAProject.BA.Questions
@@ -32,35 +33,56 @@ namespace QAProject.BA.Questions
             _questionRepository = questionRepository;
         }
 
-        public async Task<PagedResultDto<QuestionDto>> GetListQuestionAsync(GetQuestionListInput input)
+        public async Task<PagedResultDto<QuestionSummaryDto>> GetListQuestionAsync(GetListQuestionsDto input)
         {
-           
-            var queryable = await _questionRepository.GetQueryableAsync();
+         
+            var query = await _questionRepository.GetQueryableAsync();
 
            
-            queryable = queryable
-                .Where( x => x.AssigneeId == CurrentUser.Id)
-                .WhereIf(input.Status.HasValue, x => x.Status == input.Status);
-
-           
-            var totalCount = await AsyncExecuter.CountAsync(queryable);
+            query = query
+                .Include(q => q.Assignee)
+                .Include(q => q.LastModifier)
+                .Where(x => x.AssigneeId == CurrentUser.Id);
 
             
-            var questions = await AsyncExecuter.ToListAsync(
-                queryable.OrderBy(input.Sorting ?? nameof(Question.CreationTime) + " desc")
-                         .PageBy(input.SkipCount, input.MaxResultCount)
-            );
+            input.Q = input.Q?.Trim() ?? string.Empty;
+            if (!string.IsNullOrEmpty(input.Q))
+            {
+                query = query.Where(q => q.Title.Contains(input.Q) || q.Content.Contains(input.Q));
+            }
+
+          
+            if (input.Status.HasValue)
+            {
+                query = query.Where(q => q.Status == input.Status.Value);
+            }
 
            
-            return new PagedResultDto<QuestionDto>(
+            var totalCount = await AsyncExecuter.CountAsync(query);
+
+            var entityDtos = new List<QuestionSummaryDto>();
+
+            if (totalCount > 0)
+            {
+               
+                query = query.OrderBy(input.Sorting ?? $"{nameof(Question.CreationTime)} desc");
+                query = query.PageBy(input.SkipCount, input.MaxResultCount);
+
+                var entities = await AsyncExecuter.ToListAsync(query);
+
+              
+                entityDtos = ObjectMapper.Map<List<Question>, List<QuestionSummaryDto>>(entities);
+            }
+
+            return new PagedResultDto<QuestionSummaryDto>(
                 totalCount,
-                ObjectMapper.Map<List<Question>, List<QuestionDto>>(questions)
+                entityDtos
             );
         }
-        public async Task<MessageDto> SendMessageAsync(SendMessageDto input)
+        public async Task<MessageDto> SendMessageAsync(Guid questionId, CreateUpdateMessageDto input)
         {
            
-            var question = await _questionRepository.GetAsync(input.QuestionId);
+            var question = await _questionRepository.GetAsync(questionId);
 
            
             if (question.Status == QaStatus.Closed)
@@ -85,21 +107,35 @@ namespace QAProject.BA.Questions
             return ObjectMapper.Map<Message, MessageDto>(lastMessage);
         }
 
-        public async Task<List<MessageDto>> GetMessagesAsync(Guid questionId)
+        public async Task<QuestionDetailDto> GetQuestionDetailAsync(Guid id)
         {
             
-            var queryable = await _questionRepository.WithDetailsAsync(q => q.Messages);
+            var queryable = await _questionRepository.GetQueryableAsync();
 
+            
             var question = await queryable
+                .Include(q => q.Assignee)
                 .Include(q => q.Messages)
-                .ThenInclude(m => m.Creator) 
-                .FirstOrDefaultAsync(q => q.Id == questionId);
+                    .ThenInclude(m => m.Creator)
+                .FirstOrDefaultAsync(q => q.Id == id);
 
-            if (question == null) throw new EntityNotFoundException(typeof(Question), questionId);
+            
+            if (question == null)
+            {
+                throw new EntityNotFoundException(typeof(Question), id);
+            }
 
-            var messages = question.Messages.OrderBy(m => m.CreationTime).ToList();
+            
+            if (question.AssigneeId != CurrentUser.Id)
+            {
+                throw new AbpAuthorizationException("You do not have permission to access this question.");
+            }
 
-            return ObjectMapper.Map<List<Message>, List<MessageDto>>(messages);
+            
+            question.Messages = question.Messages.OrderBy(m => m.CreationTime).ToList();
+
+            
+            return ObjectMapper.Map<Question, QuestionDetailDto>(question);
         }
 
         public async Task<MessageDto> UpdateMessageAsync(Guid messageId, CreateUpdateMessageDto input)
