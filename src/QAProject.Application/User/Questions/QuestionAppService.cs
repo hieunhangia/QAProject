@@ -214,7 +214,7 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
             throw new UserFriendlyException("Message can only be edited within 1 hour of creation.");
         }
 
-        message.Content = input.Content;
+        message.UpdateContent(input.Content);
         await Repository.UpdateAsync(question);
     }
 

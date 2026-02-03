@@ -13,8 +13,8 @@ using Volo.Abp.EntityFrameworkCore;
 namespace QAProject.Migrations
 {
     [DbContext(typeof(QAProjectDbContext))]
-    [Migration("20260122142625_AddQuestionAndMessages")]
-    partial class AddQuestionAndMessages
+    [Migration("20260203010103_AddQuestionMessage")]
+    partial class AddQuestionMessage
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,10 +30,13 @@ namespace QAProject.Migrations
             modelBuilder.Entity("QAProject.Questions.Message", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.PrimitiveCollection<string>("ContentUpdateHistory")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -60,7 +63,6 @@ namespace QAProject.Migrations
             modelBuilder.Entity("QAProject.Questions.Question", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("AssigneeId")

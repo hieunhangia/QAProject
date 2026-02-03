@@ -125,7 +125,7 @@ namespace QAProject.BA.Questions
                 throw new UserFriendlyException("Messages can only be updated within 1 hour of creation.");
             }
 
-            message.Content = input.Content;
+            message.UpdateContent(input.Content);
 
             await _questionRepository.UpdateAsync(question);
 
