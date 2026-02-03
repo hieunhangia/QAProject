@@ -60,7 +60,7 @@ export class QuestionTable implements OnInit, OnDestroy {
   // Filter properties
   searchQuery = '';
   selectedStatus: QaStatus | null = null;
-  selectedSort: string = 'lastModificationTime DESC'
+  selectedSort: string = 'lastModificationTime ?? creationTime DESC'
   private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
   QaStatus = QaStatus;
@@ -74,12 +74,12 @@ export class QuestionTable implements OnInit, OnDestroy {
 
   // Time options for dropdown
   sortOptions = [
-    { label: 'Lastest', value: 'lastModificationTime DESC' },
-    { label: 'Oldest', value: 'lastModificationTime ASC' },
-    { label: 'Topic DESC', value: 'Title DESC' },
-    { label: 'Topic ASC', value: 'Title ASC' },
-    { label: 'Description DESC', value: 'Content DESC' },
-    { label: 'Description ASC', value: 'Content ASC' },
+    { label: 'Lastest', value: 'lastModificationTime ?? creationTime DESC' },
+    { label: 'Oldest', value: 'lastModificationTime ?? creationTime ASC' },
+    { label: 'Topic DESC', value: 'Title DESC, creationTime DESC' },
+    { label: 'Topic ASC', value: 'Title ASC, creationTime DESC' },
+    { label: 'Description DESC', value: 'Content DESC, creationTime DESC' },
+    { label: 'Description ASC', value: 'Content ASC, creationTime DESC' },
   ];
 
   constructor() {
@@ -131,7 +131,7 @@ export class QuestionTable implements OnInit, OnDestroy {
       q: this.searchQuery?.trim() || null,
       status: this.selectedStatus
     };
-    
+
     this.questionService
       .getList(params)
       .subscribe((res: PagedResultDto<User.Questions.QuestionSummaryDto>) => {
