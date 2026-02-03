@@ -38,21 +38,7 @@ export class HomeComponent {
     this.currentUser = this.configState.getOne('currentUser') as ApplicationConfigurationDto['currentUser'];
 
     // Nếu đã đăng nhập thì load dữ liệu Question cho dashboard
-    if (this.hasLoggedIn) {
-      this.questionService
-        .getList({ maxResultCount: 5, skipCount: 0, sorting: 'lastModificationTime DESC' })
-        .subscribe((res: PagedResultDto<User.Questions.QuestionSummaryDto>) => {
-          const items = res.items ?? [];
-
-          this.recentQuestions = items;
-          this.totalQuestions = res.totalCount ?? items.length;
-
-          const currentUserName = this.currentUser?.userName?.toLowerCase();
-          this.assignedToMe = items.filter(q => q.assigneeName?.toLowerCase() === currentUserName).length;
-          this.totalResolved = items.filter(q => q.status === QaStatus.Closed).length;
-          console.log(this.currentUser.roles)
-        });
-    }
+   
   }
 
   login() {

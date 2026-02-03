@@ -23,96 +23,22 @@
   }
 
   @else {
-  <div class="dashboard-area bg-gray-50 p-6 md:p-8">
-    <div class="header-nav mb-8 flex justify-content-between align-items-center">
-      <div class="header-left">
-        <p class="header-kicker">Your Q&A workspace</p>
-        <h2 class="text-900 font-bold text-4xl m-0 tracking-tight">
-          Welcome back, {{ currentUser?.name || currentUser?.userName || 'there' }}
-        </h2>
-        <p class="header-subtitle text-600 mt-2 text-lg">
-          Stay on top of questions you created, assigned, and resolved across your projects.
-        </p>
-      </div>
-      <div class="header-right flex align-items-center gap-4">
-        <div class="user-chip" *ngIf="currentUser">
-          <p-avatar
-            [label]="(currentUser.name || currentUser.userName || 'U').charAt(0).toUpperCase()"
-            shape="circle"
-            styleClass="user-avatar" />
-          <div class="user-chip-text">
-            <span class="user-name">{{ currentUser?.userName }}</span>
-            <span class="user-email">{{ currentUser?.email || 'No email' }}</span>
-          </div>
-        </div>
-        <div class="flex gap-3 header-actions">
-          <p-button label="Export Data" icon="pi pi-download" severity="secondary" variant="outlined" (click)="exportExcel()" />
-          <p-button label="New Question" icon="pi pi-plus" (click)="createQA()" />
-        </div>
-      </div>
-    </div>
+  <section class="hero-section animate-fadein">
+    <div class="hero-content">
+      <p class="brand-badge">Enterprise Collaboration Platform</p>
+      
+      <h1 class="main-title">
+        Master Your Project <br />
+        Workflow with Q&A
+      </h1>
+      
+      <p class="main-subtitle">
+        The professional bridge between BAs and Developers. Build, track, and resolve 
+        technical questions with a structured industry-standard lifecycle.
+      </p>
 
-    <div class="grid g-4 mb-6 metrics-row">
-      <div class="col-12 md:col-4">
-        <p-card styleClass="metric-card">
-          <span class="label">Questions Created</span>
-          <div class="value">{{ totalQuestions }}</div>
-          <p class="helper">Total questions you have opened</p>
-        </p-card>
-      </div>
-      <div class="col-12 md:col-4">
-        <p-card styleClass="metric-card">
-          <span class="label">Assigned to You</span>
-          <div class="value">{{ assignedToMe }}</div>
-          <p class="helper">Active items where you are the assignee</p>
-        </p-card>
-      </div>
-      <div class="col-12 md:col-4">
-        <p-card styleClass="metric-card">
-          <span class="label">Total Resolved</span>
-          <div class="value text-green-600">{{ totalResolved }}</div>
-          <p class="helper">All questions resolved across your history</p>
-        </p-card>
-      </div>
+      
     </div>
-
-    <h3 class="text-900 font-semibold text-2xl mb-3">Recent Questions</h3>
-    <p-table
-      [value]="recentQuestions"
-      [paginator]="true"
-      [rows]="5"
-      styleClass="p-datatable-sm shadow-1 border-round-lg overflow-hidden"
-      [resizableColumns]="true"
-      [responsiveLayout]="'scroll'">
-      <ng-template pTemplate="header">
-        <tr>
-          <th pResizableColumn>Title</th>
-          <th pResizableColumn>Assignee</th>
-          <th pResizableColumn>Status</th>
-          <th pResizableColumn>Last Modified</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-row>
-        <tr>
-          <td>{{ row.title }}</td>
-          <td>{{ row.assigneeName || '-' }}</td>
-          <td>
-            <p-tag
-              [value]="row.status"
-              [severity]="row.status === QaStatus.Closed ? 'success' : (row.status === QaStatus.InProgress ? 'warning' : 'info')">
-            </p-tag>
-          </td>
-          <td>{{ row.lastModificationTime | date: 'short' }}</td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="emptymessage">
-        <tr>
-          <td colspan="4" class="text-center py-4 text-600">
-            No recent questions found.
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-  </div>
+  </section>
   }
 </div>
