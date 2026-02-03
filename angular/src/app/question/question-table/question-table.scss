@@ -142,6 +142,23 @@ $bg-light: #F8F9FA;
 
 /* Custom Table PrimeNG */
 ::ng-deep .p-datatable-coursera-v20 {
+
+    table {
+        table-layout: fixed;
+        /* Ép bảng không được tự ý giãn rộng hơn container */
+        width: 100%;
+    }
+
+    .p-datatable-tbody>tr>td {
+        padding: 1.25rem 1.5rem !important;
+        border-bottom: 1px solid #F0F0F0 !important;
+        vertical-align: middle;
+
+        /* Thêm 2 dòng này */
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+
     .p-datatable-thead>tr>th {
         background: #ffffff;
         color: #6A6F73;
@@ -174,6 +191,17 @@ $bg-light: #F8F9FA;
         cursor: pointer;
         line-height: 1.4;
 
+        display: block;
+        /* Hoặc inline-block */
+        max-width: 100%;
+        /* Không vượt quá chiều rộng ô */
+        white-space: nowrap;
+        /* Không cho xuống dòng */
+        overflow: hidden;
+        /* Ẩn phần thừa */
+        text-overflow: ellipsis;
+        /* Hiển thị dấu ... */
+
         &:hover {
             text-decoration: underline;
         }
@@ -184,6 +212,17 @@ $bg-light: #F8F9FA;
         color: #404040;
         line-height: 1.5;
         margin: 0;
+
+        display: block;
+        /* Hoặc inline-block */
+        max-width: 100%;
+        /* Không vượt quá chiều rộng ô */
+        white-space: nowrap;
+        /* Không cho xuống dòng */
+        overflow: hidden;
+        /* Ẩn phần thừa */
+        text-overflow: ellipsis;
+        /* Hiển thị dấu ... */
     }
 
     /* Paginator */
@@ -227,7 +266,7 @@ $bg-light: #F8F9FA;
     &:hover {
         background-color: #D1D5DB !important;
         border-color: #6B7280 !important;
-        
+
         .p-button-icon {
             color: #111827 !important;
         }
@@ -247,7 +286,7 @@ $bg-light: #F8F9FA;
     border-radius: 8px !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
     border: 1px solid #E5E7EB !important;
-    
+
     .p-menu-list {
         padding: 0.5rem !important;
     }
@@ -287,6 +326,7 @@ $bg-light: #F8F9FA;
             .p-menuitem-icon {
                 color: $blue !important;
             }
+
             .p-menuitem-text {
                 color: $text-main !important;
             }
@@ -297,6 +337,7 @@ $bg-light: #F8F9FA;
             .p-menuitem-icon {
                 color: #28A745 !important;
             }
+
             .p-menuitem-text {
                 color: #28A745 !important;
             }

@@ -94,6 +94,8 @@ $bg-light: #F8F9FA;
       margin-bottom: 0.5rem;
       line-height: 1.25;
       letter-spacing: -0.03em;
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
 
     .sub-title {
@@ -562,23 +564,23 @@ $bg-light: #F8F9FA;
 }
 
 .meta-row {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.35rem 0.75rem;
-      font-size: 0.88rem;
-      margin-top: 0.1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  font-size: 0.88rem;
+  margin-top: 0.1rem;
 
-      .meta-label {
-        color: $text-sub;
-      }
+  .meta-label {
+    color: $text-sub;
+  }
 
-      .meta-value {
-        color: $text-main;
-        font-weight: 500;
-      }
+  .meta-value {
+    color: $text-main;
+    font-weight: 500;
+  }
 
-      .meta-dot {
-        color: #D1D5DB;
-      }
-    }
+  .meta-dot {
+    color: #D1D5DB;
+  }
+}

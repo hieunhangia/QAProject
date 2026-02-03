@@ -40,6 +40,19 @@
                     styleClass="filter-status-select">
                 </p-select>
             </div>
+
+            <div class="filter-group">
+                <label class="filter-label">Sort by</label>
+                <p-select
+                    [options]="timesOptions"
+                    [(ngModel)]="selectedTime"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="Sort by time"
+                    (onChange)="onStatusChange()"
+                    styleClass="filter-status-select">
+                </p-select>
+            </div>
         </div>
 
         <div class="table-card shadow-sm">
