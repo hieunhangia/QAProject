@@ -18,6 +18,8 @@ import { CreateUpdateMessageDto } from 'src/app/proxy/user/questions';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { QaStatus } from 'src/app/proxy/questions';
 import { ConfirmationService } from 'primeng/api';
+import { PopoverModule } from 'primeng/popover';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 @Component({
@@ -26,8 +28,10 @@ import { ConfirmationService } from 'primeng/api';
   imports: [
     CommonModule,
     FormsModule,
+    InputTextModule,
     RouterModule,
     ScrollerModule,
+    PopoverModule,
     AvatarModule,
     ButtonModule,
     TextareaModule,
@@ -55,6 +59,10 @@ export class QuestionDetail implements OnInit {
   QaStatus = QaStatus; // expose enum to template
   editingMessageId: string | null = null;
   editingContent = '';
+  historyUpdateMessages: string[] = []
+  titleUpdate: string;
+  contentUpdate: string;
+  isEditingQuestion = false;
 
   ngOnInit(): void {
     this.id = this.configState.getOne('currentUser').id as string;
@@ -62,13 +70,28 @@ export class QuestionDetail implements OnInit {
     this.name = this.configState.getOne('currentUser').name as string;
   }
 
-canEdit(msg: MessageDto) {
+  // Hàm để bật chế độ sửa
+  toggleEditQuestion() {
+    this.isEditingQuestion = !this.isEditingQuestion;
+    // Nếu hủy bỏ, reset lại nội dung về giá trị ban đầu của question
+    if (this.isEditingQuestion) {
+      this.titleUpdate = this.recentQuestion.title;
+      this.contentUpdate = this.recentQuestion.content;
+    }
+    else {
+      this.titleUpdate = '';
+      this.contentUpdate = '';
+    }
+  }
+
+  canEdit(msg: MessageDto) {
     const oneHour = 60 * 60 * 1000; // 1 giờ tính bằng mili giây
     const createdTime = new Date(msg.creationTime).getTime();
     const now = new Date().getTime();
 
     return (msg.creatorId === this.id) && ((now - createdTime) <= oneHour);
   }
+
 
   startEdit(msg: MessageDto) {
     this.editingMessageId = msg.id;
@@ -93,18 +116,6 @@ canEdit(msg: MessageDto) {
         this.toaster.error(err.error?.error?.message || 'Failed to update message.', 'Error');
       }
     });
-  }
-
-  updateMessage(messageId: string, input: CreateUpdateMessageDto) {
-    this.questionService.updateMessage(messageId, input).subscribe({
-      next: () => {
-        this.toaster.success('Message updated successfully.', 'Success');
-        this.loadQuestionDetail();
-      },
-      error: (err) => {
-        this.toaster.error(err.error?.error?.message, 'Error')
-      }
-    })
   }
 
   addMessage(messageId: string, input: CreateUpdateMessageDto) {
@@ -180,6 +191,36 @@ canEdit(msg: MessageDto) {
         this.recentQuestion = res;
         this.status = res.status;
       });
+  }
+
+  //Kiểm tra xem có history message ko
+  checkHistoryMessages(msgId: string) {
+    const check = this.recentQuestion.messages.find(m => m.id === msgId).contentUpdateHistory;
+    if (check.length === 0) {
+      return false;
+    }
+    else {
+      this.historyUpdateMessages = check;
+      return true;
+    }
+  }
+
+  //Update title và
+  updateQuestion() {
+    this.questionService.update(this.questionId, { title: this.titleUpdate, content: this.contentUpdate }).subscribe({
+      next: () => {
+        this.toaster.success('Updated Successfully!', 'Success');
+        this.isEditingQuestion = false;
+        if (this.recentQuestion) {
+          this.recentQuestion.title = this.titleUpdate;
+          this.recentQuestion.content = this.contentUpdate;
+        }
+        this.loadQuestionDetail();
+      },
+      error: (err) => {
+        this.toaster.error(err.error?.error?.message);
+      }
+    })
   }
 
 }

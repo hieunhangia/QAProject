@@ -12,19 +12,11 @@ export class BaQuestionService {
   apiName = 'Default';
   
 
-  deleteMessage = (messageId: string, config?: Partial<Rest.Config>) =>
-    this.restService.request<any, void>({
-      method: 'DELETE',
-      url: `/api/app/ba-question/message/${messageId}`,
-    },
-    { apiName: this.apiName,...config });
-  
-
   getListQuestion = (input: GetQuestionListInput, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<QuestionDto>>({
       method: 'GET',
       url: '/api/app/ba-question/question',
-      params: { assigneeId: input.assigneeId, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+      params: { status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
   
