@@ -11,7 +11,7 @@
           <p class="sub-title">{{ recentQuestion.content }}</p>
         </div>
 
-        <div class="title-wrapper w-full pr-4">
+        <div *ngIf="recentQuestion.messages.length === 0" class="title-wrapper w-full pr-4">
           <div *ngIf="isEditingQuestion" class="update-form-container">
             <input pInputText [(ngModel)]="titleUpdate" class="edit-title-input mb-2" placeholder="Title" />
             <textarea pTextarea [(ngModel)]="contentUpdate" rows="2" class="edit-content-input mb-2"
