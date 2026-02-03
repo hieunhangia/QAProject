@@ -60,7 +60,7 @@ export class QuestionTable implements OnInit, OnDestroy {
   // Filter properties
   searchQuery = '';
   selectedStatus: QaStatus | null = null;
-  selectedSort: string  | 'lastModificationTime DESC'
+  selectedSort: string = 'lastModificationTime DESC'
   private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
   QaStatus = QaStatus;
