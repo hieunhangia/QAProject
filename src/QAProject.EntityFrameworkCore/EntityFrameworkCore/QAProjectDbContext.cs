@@ -87,8 +87,8 @@ public class QAProjectDbContext(DbContextOptions<QAProjectDbContext> options) :
             b.ToTable(QAProjectConsts.DbTablePrefix + "Questions", QAProjectConsts.DbSchema);
             b.ConfigureByConvention();
             
-            b.Property(q => q.Title).IsRequired().HasMaxLength(200);
-            b.Property(q => q.Content).IsRequired();
+            b.Property(q => q.Title).IsRequired().HasMaxLength(QuestionConsts.QuestionTitleMaxLength);
+            b.Property(q => q.Content).IsRequired().HasMaxLength(QuestionConsts.QuestionContentMaxLength);
             b.Property(q => q.Status).IsRequired();
             
             b.HasOne(q => q.Creator)
@@ -108,7 +108,7 @@ public class QAProjectDbContext(DbContextOptions<QAProjectDbContext> options) :
         {
             b.ToTable(QAProjectConsts.DbTablePrefix + "Messages", QAProjectConsts.DbSchema);
             b.ConfigureByConvention();
-            b.Property(c => c.Content).IsRequired();
+            b.Property(c => c.Content).IsRequired().HasMaxLength(QuestionConsts.MessageContentMaxLength);
             
             b.HasOne<Question>()
                 .WithMany(c => c.Messages)
