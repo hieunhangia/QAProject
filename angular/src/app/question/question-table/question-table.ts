@@ -74,8 +74,8 @@ export class QuestionTable implements OnInit, OnDestroy {
 
   // Time options for dropdown
   timesOptions = [
-    { label: 'DESC', value: 'lastModificationTime DESC' },
-    { label: 'ASC', value: 'lastModificationTime ASC' },
+    { label: 'Lastest', value: 'lastModificationTime DESC' },
+    { label: 'Oldest', value: 'lastModificationTime ASC' },
   ];
 
   constructor() {
