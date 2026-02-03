@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QAProject.Constants;
 using QAProject.Questions;
@@ -16,16 +15,14 @@ using Volo.Abp.Domain.Repositories;
 namespace QAProject.Admin.Questions;
 
 [Authorize(Roles = Roles.Admin)]
-[Route("api/admin")]
-public class QuestionAppService(IRepository<Question, Guid> repository) : ReadOnlyAppService<
+public class AdminQuestionAppService(IRepository<Question, Guid> repository) : ReadOnlyAppService<
         Question,
         QuestionDetailDto,
         QuestionSummaryDto,
         Guid,
         GetListQuestionsDto>(repository),
-    IQuestionAppService
+    IAdminQuestionAppService
 {
-    [HttpGet("questions/{id:guid}")]
     public override async Task<QuestionDetailDto> GetAsync(Guid id)
     {
         var queryable = await Repository.GetQueryableAsync();
@@ -44,8 +41,7 @@ public class QuestionAppService(IRepository<Question, Guid> repository) : ReadOn
 
         return await MapToGetOutputDtoAsync(question);
     }
-    
-    [HttpGet("questions")]
+
     public override async Task<PagedResultDto<QuestionSummaryDto>> GetListAsync(GetListQuestionsDto input)
     {
         var query = await CreateFilteredQueryAsync(input);

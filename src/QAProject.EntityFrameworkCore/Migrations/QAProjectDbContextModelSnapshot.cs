@@ -27,10 +27,13 @@ namespace QAProject.Migrations
             modelBuilder.Entity("QAProject.Questions.Message", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.PrimitiveCollection<string>("ContentUpdateHistory")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -57,7 +60,6 @@ namespace QAProject.Migrations
             modelBuilder.Entity("QAProject.Questions.Question", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("AssigneeId")
