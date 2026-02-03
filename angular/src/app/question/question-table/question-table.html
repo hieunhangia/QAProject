@@ -15,7 +15,7 @@
         <!-- Filter Bar -->
         <div class="filter-bar">
             <div class="filter-group">
-                <label class="filter-label">Search</label>
+                <label class="filter-label">Search:</label>
                 <span class="p-input-icon-left filter-search-wrapper">
                     <i class="pi pi-search"></i>
                     <input
@@ -29,14 +29,27 @@
             </div>
 
             <div class="filter-group">
-                <label class="filter-label">Status</label>
+                <label class="filter-label">Status:</label>
                 <p-select
                     [options]="statusOptions"
                     [(ngModel)]="selectedStatus"
                     optionLabel="label"
                     optionValue="value"
                     placeholder="All Status"
-                    (onChange)="onStatusChange()"
+                    (onChange)="onSortsChange()"
+                    styleClass="filter-status-select">
+                </p-select>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label">Sort by: </label>
+                <p-select
+                    [options]="sortOptions"
+                    [(ngModel)]="selectedSort"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="Sort by..."
+                    (onChange)="onSortsChange()"
                     styleClass="filter-status-select">
                 </p-select>
             </div>
@@ -63,7 +76,9 @@
 
                 <ng-template pTemplate="body" let-q>
                     <tr class="row-hover">
-                        <td><span class="topic-title">{{ q.title }}</span></td>
+                        <td><span class="topic-title">
+                            <a [routerLink]="['/question','detail', q.id]">{{ q.title }}</a>
+                        </span></td>
                         <td>
                             <p class="snippet-text">{{ q.content | slice:0:150 }}...</p>
                         </td>

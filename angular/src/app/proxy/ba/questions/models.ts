@@ -2,7 +2,6 @@ import type { AuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.c
 import type { QaStatus } from '../../questions/qa-status.enum';
 
 export interface GetQuestionListInput extends PagedAndSortedResultRequestDto {
-  assigneeId?: string | null;
   status?: QaStatus | null;
 }
 

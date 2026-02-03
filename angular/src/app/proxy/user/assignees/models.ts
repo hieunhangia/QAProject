@@ -5,5 +5,5 @@ export interface AssigneeDto extends EntityDto<string> {
 }
 
 export interface GetAssigneeDto extends LimitedResultRequestDto {
-  assigneeName: string;
+  assigneeName?: string | null;
 }

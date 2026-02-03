@@ -46,6 +46,47 @@ $bg-light: #F8F9FA;
   }
 
   .title-wrapper {
+
+    .edit-title-input {
+      width: 100%;
+      font-size: 2rem !important; // Giữ nguyên cỡ chữ của h1 cũ
+      font-weight: 700;
+      color: #1F1F1F;
+      border: 1px dashed #D1D5DB !important; // Dùng nét đứt để báo hiệu có thể sửa
+      background: transparent;
+      padding: 4px 8px;
+      margin-bottom: 0.5rem;
+
+      &:focus {
+        border-style: solid !important;
+        outline: none;
+        border-color: #0056D2 !important;
+      }
+    }
+
+    .edit-content-input {
+      width: 100%;
+      font-size: 1rem;
+      color: #636363;
+      border: 1px dashed #D1D5DB !important;
+      background: transparent;
+      padding: 8px;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+
+      &:focus {
+        border-style: solid !important;
+        outline: none;
+        border-color: #0056D2 !important;
+      }
+    }
+
+    .btn-update-info {
+      margin-top: 0.5rem;
+      background-color: #0056D2 !important;
+      border: none !important;
+    }
+
     .main-title {
       font-size: 2rem !important;
       font-weight: 700;
@@ -53,6 +94,9 @@ $bg-light: #F8F9FA;
       margin-bottom: 0.5rem;
       line-height: 1.25;
       letter-spacing: -0.03em;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      white-space: normal;
     }
 
     .sub-title {
@@ -60,27 +104,55 @@ $bg-light: #F8F9FA;
       color: $text-sub;
       margin-bottom: 1rem;
       line-height: 1.5;
+      /* Giải pháp chống tràn */
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+
     }
 
-    .meta-row {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.35rem 0.75rem;
-      font-size: 0.88rem;
-      margin-top: 0.1rem;
+    .update-question-section {
+      margin-top: 1.25rem;
+      padding: 1rem;
+      background: #F8FAFC;
+      border-radius: 8px;
+      border: 1px solid #E2E8F0;
 
-      .meta-label {
-        color: $text-sub;
-      }
-
-      .meta-value {
+      .update-section-title {
+        font-size: 0.95rem;
+        font-weight: 600;
         color: $text-main;
-        font-weight: 500;
+        margin-bottom: 0.75rem;
       }
 
-      .meta-dot {
-        color: #D1D5DB;
+      .update-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .field {
+          .field-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: $text-sub;
+            margin-bottom: 0.35rem;
+          }
+
+          .field-input,
+          ::ng-deep .field-textarea {
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid #D1D5DB;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+          }
+
+          ::ng-deep .field-textarea textarea {
+            width: 100%;
+            min-height: 80px;
+          }
+        }
       }
     }
   }
@@ -224,6 +296,51 @@ $bg-light: #F8F9FA;
   gap: 0.35rem;
   margin-bottom: 0.25rem;
 
+  // Badge "Edited" và Icon đồng hồ
+  .history-badge {
+    margin-left: 0.5rem;
+    color: #94A3B8;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s;
+
+    i {
+      font-size: 0.85rem;
+    }
+
+    &:hover {
+      color: #0056D2; // Hiện màu xanh khi hover giống style Coursera của bạn
+    }
+  }
+
+  // Định dạng nội dung bên trong Popover lịch sử
+  .history-list {
+    width: 260px;
+    padding: 4px;
+
+    .history-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #1F1F1F;
+      border-bottom: 1px solid #F3F4F6;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+    }
+
+    .history-item {
+      font-size: 0.85rem;
+      color: #636363;
+      padding: 6px 0;
+      border-bottom: 1px solid #F9FAFB;
+      white-space: pre-wrap; // Giữ nguyên xuống dòng nếu có
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
   .author-name {
     font-size: 0.9rem;
     font-weight: 600;
@@ -249,6 +366,28 @@ $bg-light: #F8F9FA;
 
     &:hover .p-button-icon {
       color: $text-main !important;
+    }
+  }
+
+  .btn-history-icon {
+    margin-left: 0.25rem;
+    padding: 0.25rem 0.4rem;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    color: $text-sub;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    .pi {
+      font-size: 0.85rem;
+    }
+
+    &:hover {
+      background: #F3F4F6;
+      color: $text-main;
     }
   }
 }
@@ -418,5 +557,36 @@ $bg-light: #F8F9FA;
 
   &:hover {
     background-color: #F3F4F6 !important;
+  }
+}
+
+.update-form-container {
+  background: #ffffff;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  font-size: 0.88rem;
+  margin-top: 0.1rem;
+
+  .meta-label {
+    color: $text-sub;
+  }
+
+  .meta-value {
+    color: $text-main;
+    font-weight: 500;
+  }
+
+  .meta-dot {
+    color: #D1D5DB;
   }
 }

@@ -1,12 +1,6 @@
 import type { AuditedEntityDto, CreationAuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import type { QaStatus } from '../../questions/qa-status.enum';
 
-export interface CreateQuestionDto {
-  title: string;
-  content: string;
-  assigneeId: string;
-}
-
 export interface CreateUpdateMessageDto {
   content: string;
 }
@@ -19,6 +13,7 @@ export interface GetListQuestionsDto extends PagedAndSortedResultRequestDto {
 export interface MessageDto extends CreationAuditedEntityDto<string> {
   content?: string | null;
   creatorName?: string | null;
+  contentUpdateHistory?: string[] | null;
 }
 
 export interface QuestionDetailDto extends AuditedEntityDto<string> {
@@ -37,6 +32,12 @@ export interface QuestionSummaryDto extends AuditedEntityDto<string> {
   closedAt?: string | null;
   assigneeName?: string | null;
   lastModifierName?: string | null;
+}
+
+export interface CreateQuestionDto {
+  title: string;
+  content: string;
+  assigneeId?: string;
 }
 
 export interface UpdateQuestionDto {

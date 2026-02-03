@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -19,9 +20,13 @@ public class AssigneeAppService(
     : ReadOnlyAppService<IdentityUser, AssigneeDto, Guid, GetAssigneeDto>(repository),
         IAssigneeAppService
 {
-    protected override async Task<IQueryable<IdentityUser>> CreateFilteredQueryAsync(GetAssigneeDto input)
+    [HttpGet("assignee/{id:guid}")]
+    public override Task<AssigneeDto> GetAsync(Guid id) => base.GetAsync(id);
+
+    [HttpGet("assignees")]
+    public override async Task<PagedResultDto<AssigneeDto>> GetListAsync(GetAssigneeDto input)
     {
-        var query = await base.CreateFilteredQueryAsync(input);
+        var query = await CreateFilteredQueryAsync(input);
         var assigneeName = input.AssigneeName?.Trim();
         if (!string.IsNullOrEmpty(assigneeName))
         {
@@ -29,16 +34,24 @@ public class AssigneeAppService(
         }
 
         var assigneeRole = await roleRepository.FirstOrDefaultAsync(r => r.Name == Roles.BA);
-        query = assigneeRole != null
-            ? query.Where(u => u.Roles.Any(r => r.RoleId == assigneeRole.Id))
-            : query.Where(u => false);
-        query = query.OrderBy(u => u.Name);
-        return query;
+        query = query.Where(u => u.Roles.Any(r => r.RoleId == assigneeRole!.Id));
+
+        var totalCount = await AsyncExecuter.CountAsync(query);
+
+        var entityDtos = new List<AssigneeDto>();
+
+        if (totalCount > 0)
+        {
+            query = query.OrderBy(u => u.Name);
+            query = ApplyPaging(query, input);
+
+            var entities = await AsyncExecuter.ToListAsync(query);
+            entityDtos = await MapToGetListOutputDtosAsync(entities);
+        }
+
+        return new PagedResultDto<AssigneeDto>(
+            totalCount,
+            entityDtos
+        );
     }
-
-    [HttpGet("assignee/{id:guid}")]
-    public override Task<AssigneeDto> GetAsync(Guid id) => base.GetAsync(id);
-
-    [HttpGet("assignees")]
-    public override Task<PagedResultDto<AssigneeDto>> GetListAsync(GetAssigneeDto input) => base.GetListAsync(input);
 }
