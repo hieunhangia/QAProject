@@ -6,7 +6,7 @@ using Volo.Abp.Application.Services;
 
 namespace QAProject.Admin.Questions;
 
-public interface IQuestionAppService : IReadOnlyAppService<
+public interface IAdminQuestionAppService : IReadOnlyAppService<
     QuestionDetailDto,
     QuestionSummaryDto,
     Guid,
