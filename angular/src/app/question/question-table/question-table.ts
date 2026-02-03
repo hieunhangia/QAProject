@@ -60,7 +60,7 @@ export class QuestionTable implements OnInit, OnDestroy {
   // Filter properties
   searchQuery = '';
   selectedStatus: QaStatus | null = null;
-  selectedTime: string  | 'lastModificationTime DESC'
+  selectedSort: string  | 'lastModificationTime DESC'
   private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
   QaStatus = QaStatus;
@@ -73,9 +73,13 @@ export class QuestionTable implements OnInit, OnDestroy {
   ];
 
   // Time options for dropdown
-  timesOptions = [
+  sortOptions = [
     { label: 'Lastest', value: 'lastModificationTime DESC' },
     { label: 'Oldest', value: 'lastModificationTime ASC' },
+    { label: 'Topic DESC', value: 'Title DESC' },
+    { label: 'Topic ASC', value: 'Title ASC' },
+    { label: 'Description DESC', value: 'Content DESC' },
+    { label: 'Description ASC', value: 'Content ASC' },
   ];
 
   constructor() {
@@ -123,7 +127,7 @@ export class QuestionTable implements OnInit, OnDestroy {
     const params: User.Questions.GetListQuestionsDto = {
       maxResultCount,
       skipCount,
-      sorting: this.selectedTime,
+      sorting: this.selectedSort,
       q: this.searchQuery?.trim() || null,
       status: this.selectedStatus
     };
@@ -144,7 +148,7 @@ export class QuestionTable implements OnInit, OnDestroy {
     this.searchSubject.next(value);
   }
 
-  onStatusChange() {
+  onSortsChange() {
     this.loadQuestion(0, 10);
   }
 
