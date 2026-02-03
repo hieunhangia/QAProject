@@ -65,12 +65,12 @@ namespace QAProject.BA.Questions
            
             if (question.Status == QaStatus.Closed)
             {
-                throw new UserFriendlyException("Cuộc hội thoại này đã đóng, bạn không thể gửi thêm tin nhắn.");
+                throw new UserFriendlyException("The conversation is closed. No further messages can be added.");
             }
 
             if (question.AssigneeId != CurrentUser.Id)
             {
-                throw new AbpAuthorizationException("Bạn không có quyền thêm tin nhắn vào câu hỏi này.");
+                throw new AbpAuthorizationException("You do not have permission to send messages to this question.");
             }
 
 
@@ -112,20 +112,17 @@ namespace QAProject.BA.Questions
 
             if (question.Status == QaStatus.Closed)
             {
-                throw new UserFriendlyException("Cuộc hội thoại này đã đóng. Mọi chỉnh sửa đều không được phép.");
+                throw new UserFriendlyException("The conversation is closed. Messages cannot be edited.");
             }
-
-            if (question.Status == QaStatus.Closed)
-                throw new UserFriendlyException("Không thể sửa tin nhắn trong câu hỏi đã đóng.");
 
             var message = question.Messages.First(m => m.Id == messageId);
 
             if (message.CreatorId != CurrentUser.Id)
-                throw new AbpAuthorizationException("Bạn không có quyền sửa tin nhắn này.");
+                throw new AbpAuthorizationException("You do not have permission to update this message.");
             
             if (message.CreationTime.AddHours(1) < DateTime.Now)
             {
-                throw new UserFriendlyException("Chỉ có thể cập nhật tin nhắn trong vòng 1 giờ sau khi tạo.");
+                throw new UserFriendlyException("Messages can only be updated within 1 hour of creation.");
             }
 
             message.Content = input.Content;
