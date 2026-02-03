@@ -10,11 +10,12 @@ namespace QAProject.BA.Questions
 {
     public interface IBaQuestionAppService : IApplicationService
     {
-        Task<PagedResultDto<QuestionDto>> GetListQuestionAsync(GetQuestionListInput input);
-        Task<MessageDto> SendMessageAsync(SendMessageDto input);
-        Task<List<MessageDto>> GetMessagesAsync(Guid questionId);
+        Task<PagedResultDto<QuestionSummaryDto>> GetListQuestionAsync(GetListQuestionsDto input);
+        Task<MessageDto> SendMessageAsync(Guid questionId, CreateUpdateMessageDto input);
+        Task<QuestionDetailDto> GetQuestionDetailAsync(Guid id);
 
-        
+
+
         Task<MessageDto> UpdateMessageAsync(Guid messageId, CreateUpdateMessageDto input);
 
        

@@ -54,13 +54,7 @@ public partial class AssigneeToAssigneeDtoMapper : MapperBase<IdentityUser, Assi
     public override partial void Map(IdentityUser source, AssigneeDto destination);
 }
 
-[Mapper]
-public partial class QuestionToQuestionDtoMapper
-    : MapperBase<Question, QuestionDto>
-{
-    public override partial QuestionDto Map(Question source);
-    public override partial void Map(Question source, QuestionDto destination);
-}
+
 
 [Mapper]
 public partial class MessageToMessageDtoMapper : MapperBase<Message, MessageDto>
