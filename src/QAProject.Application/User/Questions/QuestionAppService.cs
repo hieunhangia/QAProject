@@ -44,7 +44,7 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
 
         if (question.CreatorId != CurrentUser.Id)
         {
-            throw new AbpAuthorizationException("Bạn không có quyền truy cập câu hỏi này.");
+            throw new AbpAuthorizationException("You do not have permission to access this question.");
         }
 
         question.Messages = question.Messages.OrderBy(m => m.CreationTime).ToList();
@@ -95,7 +95,7 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
     {
         if (await userRepository.FindAsync(u => u.Id == input.AssigneeId) == null)
         {
-            throw new EntityNotFoundException("Người được giao nhiệm vụ trả lời không tồn tại.");
+            throw new EntityNotFoundException("The assigned user does not exist.");
         }
 
         return await base.CreateAsync(input);
@@ -113,17 +113,17 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
 
         if (question.CreatorId != CurrentUser.Id)
         {
-            throw new AbpAuthorizationException("Bạn không có quyền cập nhật câu hỏi này.");
+            throw new AbpAuthorizationException("You do not have permission to update this question.");
         }
 
         if (question.Status == QaStatus.Closed)
         {
-            throw new UserFriendlyException("Không thể cập nhật câu hỏi đã đóng.");
+            throw new UserFriendlyException("The question is closed and cannot be updated.");
         }
 
         if (question.Messages.Count != 0)
         {
-            throw new UserFriendlyException("Không thể cập nhật câu hỏi đã có câu trả lời.");
+            throw new UserFriendlyException("Cannot update the question after messages have been added.");
         }
 
         return await base.UpdateAsync(id, input);
@@ -139,12 +139,12 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
 
         if (question.CreatorId != CurrentUser.Id)
         {
-            throw new AbpAuthorizationException("Bạn không có quyền cập nhật câu hỏi này.");
+            throw new AbpAuthorizationException("You do not have permission to update the status of this question.");
         }
 
         if (question.Status == status)
         {
-            throw new UserFriendlyException("Trạng thái câu hỏi không thay đổi.");
+            throw new UserFriendlyException("The question is already in the desired status.");
         }
 
         switch (status)
@@ -156,7 +156,7 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
                 question.Close();
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(status), status, "Trạng thái câu hỏi không hợp lệ.");
+                throw new ArgumentOutOfRangeException(nameof(status), status, "Invalid status value.");
         }
 
         await Repository.UpdateAsync(question);
@@ -173,12 +173,12 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
 
         if (question.CreatorId != CurrentUser.Id)
         {
-            throw new AbpAuthorizationException("Bạn không có quyền thêm tin nhắn vào câu hỏi này.");
+            throw new AbpAuthorizationException("You do not have permission to add messages to this question.");
         }
 
         if (question.Status == QaStatus.Closed)
         {
-            throw new UserFriendlyException("Không thể thêm tin nhắn vào câu hỏi đã đóng.");
+            throw new UserFriendlyException("The question is closed. No further messages can be added.");
         }
 
         question.AddMessage(input.Content);
@@ -197,26 +197,21 @@ public class QuestionAppService(IRepository<Question, Guid> repository, IReposit
             throw new EntityNotFoundException(typeof(Message), messageId);
         }
 
-        if (question.CreatorId != CurrentUser.Id)
-        {
-            throw new AbpAuthorizationException("Bạn không có quyền cập nhật tin nhắn này.");
-        }
-
         var message = question.Messages.First(m => m.Id == messageId);
 
         if (message.CreatorId != CurrentUser.Id)
         {
-            throw new AbpAuthorizationException("Bạn không có quyền cập nhật tin nhắn này.");
+            throw new AbpAuthorizationException("You do not have permission to update this message.");
         }
 
         if (question.Status == QaStatus.Closed)
         {
-            throw new UserFriendlyException("Không thể cập nhật tin nhắn trong câu hỏi đã đóng.");
+            throw new UserFriendlyException("The question is closed. Messages cannot be edited.");
         }
 
         if (message.CreationTime.AddHours(1) < DateTime.Now)
         {
-            throw new UserFriendlyException("Chỉ có thể cập nhật tin nhắn trong vòng 1 giờ sau khi tạo.");
+            throw new UserFriendlyException("Message can only be edited within 1 hour of creation.");
         }
 
         message.Content = input.Content;
