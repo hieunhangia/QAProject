@@ -76,7 +76,9 @@
 
                 <ng-template pTemplate="body" let-q>
                     <tr class="row-hover">
-                        <td><span class="topic-title">{{ q.title }}</span></td>
+                        <td><span class="topic-title">
+                            <a [routerLink]="['/question','detail', q.id]">{{ q.title }}</a>
+                        </span></td>
                         <td>
                             <p class="snippet-text">{{ q.content | slice:0:150 }}...</p>
                         </td>
