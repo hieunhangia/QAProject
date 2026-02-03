@@ -43,8 +43,8 @@ export class QuestionCreate {
   selectedAssignee: AssigneeDto | null = null;
 
   questionForm: FormGroup = this.fb.group({
-    title: ['', [Validators.required]],
-    content: ['', [Validators.required]],
+    title: ['', [Validators.required, Validators.maxLength(50)]],
+    content: ['', [Validators.required, Validators.maxLength(200)]],
     assigneeId: ['', [Validators.required]]
   });
 
