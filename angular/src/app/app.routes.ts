@@ -1,5 +1,6 @@
 import { authGuard, permissionGuard } from '@abp/ng.core';
 import { Routes } from '@angular/router';
+import { identityEntityActionContributors } from './identity-extended/identityEntityActionContributors';
 
 
 export const APP_ROUTES: Routes = [
@@ -9,13 +10,23 @@ export const APP_ROUTES: Routes = [
     loadComponent: () => import('./home/home.component').then(c => c.HomeComponent),
   },
   {
+  path: 'identity',
+  loadChildren: () =>
+    import('@abp/ng.identity').then(m =>
+      m.createRoutes({
+        entityActionContributors: identityEntityActionContributors,
+      })
+    ),
+  },
+  {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(c => c.createRoutes()),
   },
-  {
-    path: 'identity',
-    loadChildren: () => import('@abp/ng.identity').then(c => c.createRoutes()),
-  },
+  // {
+  //   path: 'identity',
+  //   loadChildren: () => import('@abp/ng.identity').then(c => c.createRoutes()),
+  // },
+  
   {
     path: 'tenant-management',
     loadChildren: () => import('@abp/ng.tenant-management').then(c => c.createRoutes()),
@@ -47,4 +58,5 @@ export const APP_ROUTES: Routes = [
       },
     ],
   },
+  
 ];
