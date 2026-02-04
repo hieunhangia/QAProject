@@ -18,7 +18,6 @@ import { RouterOutlet } from '@angular/router';
     LocalizationPipe, 
     ModalCloseDirective
   ],
-  providers: [IdentityExtendedComponent]
 })
 export class IdentityExtendedComponent {
   isUserQuickViewVisible: boolean;
