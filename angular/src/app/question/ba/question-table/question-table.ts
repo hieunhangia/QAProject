@@ -1,7 +1,8 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
-import { User } from '../../proxy';
+import { Ba, User } from 'src/app/proxy';
+import { ToasterService } from '@abp/ng.theme.shared';
 import { type PagedResultDto } from '@abp/ng.core';
-import { QaStatus } from '../../proxy/questions';
+import { QaStatus } from '../../../proxy/questions';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
@@ -15,15 +16,12 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
-import { ToasterService } from '@abp/ng.theme.shared';
 import { Router, RouterModule } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
-
 @Component({
   selector: 'app-question-table',
-  standalone: true,
   imports: [
     ButtonModule,
     TableModule,
@@ -43,29 +41,19 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
   templateUrl: './question-table.html',
   styleUrl: './question-table.scss'
 })
-
 export class QuestionTable implements OnInit, OnDestroy {
-  private questionService = inject(User.Questions.QuestionService);
+  private questionService = inject(Ba.Questions.BaQuestionService);
   recentQuestions: User.Questions.QuestionSummaryDto[] = [];
   totalQuestions = 0;
   loading = true;
   private readonly toaster = inject(ToasterService);
   private router = inject(Router);
 
-  // Filter properties
+  //Filter properties
   searchQuery = '';
-  selectedStatus: QaStatus | null = null;
-  selectedSort: string = 'lastModificationTime ?? creationTime DESC'
+  selectedSort: string = 'lastModificationTime ?? creationTime DESC';
   private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
-  QaStatus = QaStatus;
-
-  // Status options for dropdown
-  statusOptions = [
-    { label: 'All', value: null },
-    { label: 'Open', value: QaStatus.Open },
-    { label: 'Closed', value: QaStatus.Closed }
-  ];
 
   // Time options for dropdown
   sortOptions = [
@@ -81,15 +69,14 @@ export class QuestionTable implements OnInit, OnDestroy {
     // Debounce search input
     this.searchSubject.pipe(
       debounceTime(500),
-      distinctUntilChanged(),
+      distinctUntilChanged(), // ko để giá trị trùng lặp
       takeUntil(this.destroy$)
     ).subscribe(() => {
       this.loadQuestion(0, 10);
-    });
+    })
   }
 
   ngOnInit(): void {
-    // Load initial data
     this.loadQuestion(0, 10);
   }
 
@@ -105,25 +92,25 @@ export class QuestionTable implements OnInit, OnDestroy {
   loadQuestion(skipCount: number, maxResultCount: number) {
     this.loading = true;
     const params: User.Questions.GetListQuestionsDto = {
+      status: QaStatus.Open,
+      sorting: this.selectedSort,
       maxResultCount,
       skipCount,
-      sorting: this.selectedSort,
-      q: this.searchQuery?.trim() || null,
-      status: this.selectedStatus
-    };
+      q: this.searchQuery
+    }
 
     this.questionService
-      .getList(params)
+      .getListQuestion(params)
       .subscribe((res: PagedResultDto<User.Questions.QuestionSummaryDto>) => {
         const items = res.items ?? [];
         this.recentQuestions = items;
         this.totalQuestions = res.totalCount ?? 0;
         this.loading = false;
-      });
+      })
   }
 
   onSearchChange(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+    const value = (event.target as HTMLInputElement).value
     this.searchQuery = value;
     this.searchSubject.next(value);
   }
