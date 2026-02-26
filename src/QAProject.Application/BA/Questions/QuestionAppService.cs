@@ -42,6 +42,7 @@ namespace QAProject.BA.Questions
             query = query
                 .Include(q => q.Assignee)
                 .Include(q => q.LastModifier)
+                .Include(q => q.Creator)
                 .Where(x => x.AssigneeId == CurrentUser.Id);
 
             

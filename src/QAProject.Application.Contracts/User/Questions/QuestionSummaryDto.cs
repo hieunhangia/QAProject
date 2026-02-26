@@ -10,6 +10,8 @@ public class QuestionSummaryDto : AuditedEntityDto<Guid>
     public string? Content { get; set; }
     public QaStatus Status { get; set; }
     public DateTime? ClosedAt { get; set; }
+
+    public string? CreatorName { get; set; }
     public string? AssigneeName { get; set; }
     public string? LastModifierName {get; set;}
 }
