@@ -12,8 +12,6 @@ import { FormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { MenuModule } from 'primeng/menu';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { MenuItem, ConfirmationService } from 'primeng/api';
-import { ActivatedRoute } from '@angular/router';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -42,7 +40,6 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
     ConfirmDialogModule,
     RouterModule,
   ],
-  providers: [ConfirmationService],
   templateUrl: './question-table.html',
   styleUrl: './question-table.scss'
 })
@@ -52,10 +49,8 @@ export class QuestionTable implements OnInit, OnDestroy {
   recentQuestions: User.Questions.QuestionSummaryDto[] = [];
   totalQuestions = 0;
   loading = true;
-  private route = inject(ActivatedRoute);
   private readonly toaster = inject(ToasterService);
   private router = inject(Router);
-  private confirmationService = inject(ConfirmationService);
 
   // Filter properties
   searchQuery = '';
@@ -103,21 +98,6 @@ export class QuestionTable implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  getMenuItems(questionId: string): MenuItem[] {
-    return [
-      {
-        label: 'Detail',
-        icon: 'pi pi-eye',
-        command: () => this.viewDetail(questionId)
-      },
-      {
-        label: 'Re-Open',
-        icon: 'pi pi-refresh',
-        command: () => this.reOpenQuestion(questionId)
-      }
-    ];
-  }
-
   viewDetail(id: string) {
     this.router.navigate(['question', 'detail', id]);
   }
@@ -154,28 +134,5 @@ export class QuestionTable implements OnInit, OnDestroy {
 
   onPageChange(event: { first: number; rows: number }) {
     this.loadQuestion(event.first, event.rows);
-  }
-
-  reOpenQuestion(id: string) {
-    this.confirmationService.confirm({
-      header: 'Re-Open Question',
-      message: 'Are you sure you want to re-open this question?',
-      icon: 'pi pi-exclamation-triangle',
-      acceptLabel: 'Re-Open',
-      rejectLabel: 'Cancel',
-      acceptButtonStyleClass: 'btn-confirm-primary',
-      rejectButtonStyleClass: 'btn-confirm-secondary p-button-text',
-      accept: () => {
-        this.questionService.updateStatus(id, QaStatus.Open).subscribe({
-          next: () => {
-            this.toaster.success('Question re-opened successfully.', 'Success');
-            this.loadQuestion(0, 10);
-          },
-          error: (err) => {
-            this.toaster.error(err.error?.error?.message);
-          }
-        });
-      }
-    });
   }
 }

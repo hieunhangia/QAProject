@@ -53,7 +53,7 @@ function configureRoutes() {
           name: 'Create Question',
           parentName: 'Questions',
           iconClass: 'fas fa-plus-circle',
-          order: 3,
+          order: 2,
           layout: eLayoutType.application,
         },
       ]);
