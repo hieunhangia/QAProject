@@ -26,4 +26,22 @@ export class AdminQuestionService {
       params: { q: input.q, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
+  
+
+  getListAssignedQuestion = (baId: string, input: GetListQuestionsDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, PagedResultDto<QuestionSummaryDto>>({
+      method: 'GET',
+      url: `/api/app/admin-question/assigned-question/${baId}`,
+      params: { q: input.q, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getListByUserId = (userId: string, input: GetListQuestionsDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, PagedResultDto<QuestionSummaryDto>>({
+      method: 'GET',
+      url: `/api/app/admin-question/by-user-id/${userId}`,
+      params: { q: input.q, status: input.status, sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
 }

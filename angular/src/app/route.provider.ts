@@ -29,6 +29,7 @@ function configureRoutes() {
     const u = currentUser as { roles?: string[] } | null | undefined;
     const roles = Array.isArray(u?.roles) ? u.roles : [];
     const hasUserRole = roles.includes('User');
+    const hasBARole = roles.includes('BA');
 
     if (hasUserRole && !questionRoutesAdded) {
       questionRoutesAdded = true;
@@ -56,6 +57,27 @@ function configureRoutes() {
           order: 2,
           layout: eLayoutType.application,
         },
+      ]);
+    }
+
+    if (hasBARole && !questionRoutesAdded) {
+      questionRoutesAdded = true;
+      routes.add([
+        {
+          path: '/questionBA',
+          name: 'Questions',
+          iconClass: 'fas fa-question-circle',
+          order: 2,
+          layout: eLayoutType.application,
+        },
+        {
+          path: '/questionBA/list',
+          name: 'Questions Catalog',
+          parentName: 'Questions',
+          iconClass: 'fas fa-clipboard-list',
+          order: 1,
+          layout: eLayoutType.application,
+        }
       ]);
     }
   });

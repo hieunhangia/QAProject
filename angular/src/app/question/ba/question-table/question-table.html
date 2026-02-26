@@ -1,0 +1,94 @@
+<div class="coursera-layout">
+    <div class="coursera-wrapper">
+        <div class="header-container flex justify-content-between align-items-center">
+            <div class="header-text">
+                <h1 class="main-title">Questions Catalog</h1>
+                <p class="sub-title">Manage and track all community discussions in real-time.</p>
+            </div>
+            <p-button label="CREATE QUESTION" icon="pi pi-plus" size="large" styleClass="btn-coursera-primary"
+                routerLink="/question/create">
+            </p-button>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label class="filter-label">Search:</label>
+                <span class="p-input-icon-left filter-search-wrapper">
+                    <i class="pi pi-search"></i>
+                    <input
+                        type="text"
+                        pInputText
+                        placeholder="Search by title or content..."
+                        [value]="searchQuery"
+                        (input)="onSearchChange($event)"
+                        class="filter-search-input">
+                </span>
+            </div>
+
+            <div class="filter-group">
+                <label class="filter-label">Sort by: </label>
+                <p-select
+                    [options]="sortOptions"
+                    [(ngModel)]="selectedSort"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="Sort by..."
+                    (onChange)="onSortsChange()"
+                    styleClass="filter-status-select">
+                </p-select>
+            </div>
+        </div>
+
+        <div class="table-card shadow-sm">
+            <p-table [value]="recentQuestions" [paginator]="true" [rows]="10"
+                [lazy]="true" [totalRecords]="totalQuestions"
+                (onLazyLoad)="onPageChange($event)"
+                [loading]="loading"
+                styleClass="p-datatable-lg p-datatable-coursera-v20" [responsiveLayout]="'scroll'"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 25%">TOPIC</th>
+                        <th style="width: 40%">DESCRIPTION</th>
+                        <th style="width: 15%">REQUESTER</th>
+                        <th style="width: 10%" class="text-center">ACTION</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-q>
+                    <tr class="row-hover">
+                        <td>
+                            <span class="topic-title">
+                            <a [routerLink]="['/question','detail', q.id]">{{ q.title }}</a>
+                        </span>
+                    </td>
+
+                        <td>
+                            <p class="snippet-text">{{ q.content | slice:0:150 }}...</p>
+                        </td>
+            
+                        <td>
+                            <div class="flex align-items-center">
+                                <p-avatar [label]="q.assigneeName?.charAt(0)" size="large" shape="circle"
+                                    styleClass="avatar-black"></p-avatar>
+                                <span class="assignee-name ms-1">{{ q.assigneeName ? q.assigneeName : 'Unassigned'
+                                    }}</span>
+                            </div>
+                        </td>
+
+                        <td class="text-center">
+                            <p-button label="Detail" icon="pi pi-eye" styleClass="btn-view-detail-primary"
+                                pTooltip="View Detail" tooltipPosition="bottom"
+                                (onClick)="viewDetail(q.id)">
+                            </p-button>
+                        </td>
+                        
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>

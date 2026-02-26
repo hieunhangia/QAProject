@@ -43,17 +43,36 @@ export const APP_ROUTES: Routes = [
       },
       {
         path: 'list', // Khớp với đường dẫn /question
-        loadComponent: () => import('./question/question-table/question-table').then(c => c.QuestionTable)
+        loadComponent: () => import('./question/user/question-table/question-table').then(c => c.QuestionTable)
       },
       {
         path: 'create',
-        loadComponent: () => import('./question/question-create/question-create').then(c => c.QuestionCreate)
+        loadComponent: () => import('./question/user/question-create/question-create').then(c => c.QuestionCreate)
       },
       {
         path: 'detail/:id',
-        loadComponent: () => import('./question/question-detail/question-detail').then(c => c.QuestionDetail)
+        loadComponent: () => import('./question/user/question-detail/question-detail').then(c => c.QuestionDetail)
       },
     ],
   },
+  {
+    path: 'questionBA',
+    canActivate: [authGuard],
+    children: [
+      {
+        path: '', // Khớp với đường dẫn /question
+        redirectTo: 'list',
+        pathMatch: 'full'
+      },
+      {
+        path: 'list', // Khớp với đường dẫn /question
+        loadComponent: () => import('./question/ba/question-table/question-table').then(c => c.QuestionTable)
+      },
+      {
+        path: 'detail/:id',
+        loadComponent: () => import('./question/ba/question-detail/question-detail').then(c => c.QuestionDetail)
+      },
+    ],
+  }
 
 ];

@@ -37,7 +37,7 @@ export interface QuestionSummaryDto extends AuditedEntityDto<string> {
 export interface CreateQuestionDto {
   title: string;
   content: string;
-  assigneeId?: string;
+  assigneeId: string;
 }
 
 export interface UpdateQuestionDto {
