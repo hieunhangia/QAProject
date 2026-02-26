@@ -5,9 +5,6 @@
                 <h1 class="main-title">Questions Catalog</h1>
                 <p class="sub-title">Manage and track all community discussions in real-time.</p>
             </div>
-            <p-button label="CREATE QUESTION" icon="pi pi-plus" size="large" styleClass="btn-coursera-primary"
-                routerLink="/question/create">
-            </p-button>
         </div>
 
         <!-- Filter Bar -->
@@ -74,7 +71,7 @@
                             <div class="flex align-items-center">
                                 <p-avatar [label]="q.assigneeName?.charAt(0)" size="large" shape="circle"
                                     styleClass="avatar-black"></p-avatar>
-                                <span class="assignee-name ms-1">{{ q.assigneeName ? q.assigneeName : 'Unassigned'
+                                <span class="assignee-name ms-1">{{ q.creatorName ? q.creatorName : 'Unkown'
                                     }}</span>
                             </div>
                         </td>

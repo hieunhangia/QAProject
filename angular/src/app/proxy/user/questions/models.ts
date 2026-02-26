@@ -30,6 +30,7 @@ export interface QuestionSummaryDto extends AuditedEntityDto<string> {
   content?: string | null;
   status?: QaStatus;
   closedAt?: string | null;
+  creatorName?: string | null;
   assigneeName?: string | null;
   lastModifierName?: string | null;
 }
