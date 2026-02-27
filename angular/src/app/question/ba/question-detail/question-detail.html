@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="messages-container">
-                    <div class="message-row" *ngFor="let msg of recentQuestion.messages">
+                    <div class="message-row" *ngFor="let msg of recentQuestion.messages" [ngClass]="{ 'mine': msg.creatorId === id, 'other': msg.creatorId !== id }">
                         <div class="avatar-col">
                             <p-avatar [label]="(msg.creatorName || 'U').charAt(0)" size="large" shape="circle"
                                 [styleClass]="msg.creatorId === id ? 'avatar-black' : 'avatar-blue'">

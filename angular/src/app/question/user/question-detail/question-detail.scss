@@ -295,6 +295,9 @@ $bg-light: #F8F9FA;
 
 .content-col {
   flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .message-header {
@@ -302,6 +305,7 @@ $bg-light: #F8F9FA;
   align-items: center;
   gap: 0.35rem;
   margin-bottom: 0.25rem;
+  width: max-content;
 
   // Badge "Edited" và Icon đồng hồ
   .history-badge {
@@ -364,7 +368,7 @@ $bg-light: #F8F9FA;
   }
 
   ::ng-deep .btn-edit-message {
-    margin-left: auto;
+    margin-left: 0;
 
     .p-button-icon {
       font-size: 0.85rem !important;
@@ -397,6 +401,20 @@ $bg-light: #F8F9FA;
       color: $text-main;
     }
   }
+}
+
+.message-row.mine {
+  flex-direction: row-reverse;
+}
+
+.message-row.mine .content-col {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.message-row.other .content-col {
+  align-items: flex-start;
+  text-align: left;
 }
 
 .message-bubble {

@@ -399,6 +399,40 @@ $bg-light: #F8F9FA;
   }
 }
 
+.message-row {
+  display: flex;
+  gap: 0.85rem;
+}
+
+.content-col {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.message-header {
+  width: max-content;
+}
+
+::ng-deep .btn-edit-message {
+  margin-left: 0;
+}
+
+.message-row.mine {
+  flex-direction: row-reverse;
+}
+
+.message-row.mine .content-col {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.message-row.other .content-col {
+  align-items: flex-start;
+  text-align: left;
+}
+
 .message-bubble {
   background-color: #F3F4F6;
   border-radius: 12px;

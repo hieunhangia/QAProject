@@ -42,7 +42,7 @@ import { InputTextModule } from 'primeng/inputtext';
 })
 export class QuestionDetail implements OnInit {
   private configState = inject(ConfigStateService);
-  private id: string; // id của user hiện tại
+  public id: string; // id của user hiện tại
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private baService = inject(Ba.Questions.BaQuestionService);
