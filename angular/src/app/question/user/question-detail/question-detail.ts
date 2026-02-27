@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule, Router } from '@angular/router';
-import { ConfigStateService, type ApplicationAuthConfigurationDto } from '@abp/ng.core';
+import { ConfigStateService } from '@abp/ng.core';
 import { User } from 'src/app/proxy';
 import { MessageDto } from 'src/app/proxy/user/questions';
 import { QuestionDetailDto } from 'src/app/proxy/user/questions';
@@ -118,8 +118,8 @@ export class QuestionDetail implements OnInit {
     });
   }
 
-  addMessage(messageId: string, input: CreateUpdateMessageDto) {
-    this.questionService.addMessage(messageId, input).subscribe({
+  addMessage(questionId: string, input: CreateUpdateMessageDto) {
+    this.questionService.addMessage(questionId, input).subscribe({
       next: () => {
         this.loadQuestionDetail();
       },

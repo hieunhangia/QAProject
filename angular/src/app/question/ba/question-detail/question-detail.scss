@@ -1,0 +1,599 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+$blue: #0056D2;
+$blue-hover: #00419e;
+$text-main: #1F1F1F;
+$text-sub: #636363;
+$bg-light: #F8F9FA;
+
+:host {
+  font-family: 'Inter', sans-serif;
+  display: block;
+  background-color: $bg-light;
+  min-height: 100vh;
+}
+
+.coursera-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
+}
+
+.header-container {
+  margin-bottom: 2.75rem;
+
+  .header-text {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .btn-back {
+    border-radius: 999px !important;
+    background-color: #ffffff !important;
+    border: 1px solid #E0E3E7 !important;
+    color: $text-main !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+
+    .p-button-icon {
+      font-size: 0.95rem !important;
+    }
+
+    &:hover {
+      background-color: #F3F4F6 !important;
+    }
+  }
+
+  .title-wrapper {
+
+    .edit-title-input {
+      width: 100%;
+      font-size: 2rem !important; // Giữ nguyên cỡ chữ của h1 cũ
+      font-weight: 700;
+      color: #1F1F1F;
+      border: 1px dashed #D1D5DB !important; // Dùng nét đứt để báo hiệu có thể sửa
+      background: transparent;
+      padding: 4px 8px;
+      margin-bottom: 0.5rem;
+
+      &:focus {
+        border-style: solid !important;
+        outline: none;
+        border-color: #0056D2 !important;
+      }
+    }
+
+    .edit-content-input {
+      width: 100%;
+      font-size: 1rem;
+      color: #636363;
+      border: 1px dashed #D1D5DB !important;
+      background: transparent;
+      padding: 8px;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+
+      &:focus {
+        border-style: solid !important;
+        outline: none;
+        border-color: #0056D2 !important;
+      }
+    }
+
+    .btn-update-info {
+      margin-top: 0.5rem;
+      background-color: #0056D2 !important;
+      border: none !important;
+    }
+
+    .main-title {
+      font-size: 2rem !important;
+      font-weight: 700;
+      color: $text-main;
+      margin-bottom: 0.5rem;
+      line-height: 1.25;
+      letter-spacing: -0.03em;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      white-space: normal;
+    }
+
+    .sub-title {
+      font-size: 1rem;
+      color: $text-sub;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+      /* Giải pháp chống tràn */
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      white-space: pre-wrap;
+
+    }
+
+    .update-question-section {
+      margin-top: 1.25rem;
+      padding: 1rem;
+      background: #F8FAFC;
+      border-radius: 8px;
+      border: 1px solid #E2E8F0;
+
+      .update-section-title {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: $text-main;
+        margin-bottom: 0.75rem;
+      }
+
+      .update-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        .field {
+          .field-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: $text-sub;
+            margin-bottom: 0.35rem;
+          }
+
+          .field-input,
+          ::ng-deep .field-textarea {
+            width: 100%;
+            border-radius: 6px;
+            border: 1px solid #D1D5DB;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+          }
+
+          ::ng-deep .field-textarea textarea {
+            width: 100%;
+            min-height: 80px;
+          }
+        }
+      }
+    }
+  }
+
+  .header-actions {
+    gap: 0.75rem;
+  }
+}
+
+/* Status tags */
+::ng-deep .tag-pill-open {
+  background: #c1f1d3 !important;
+  color: #0F9D58 !important;
+  font-size: 0.8rem !important;
+  padding: 0.8rem 1rem !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  border: 1px solid #1df809 !important;
+}
+
+::ng-deep .tag-pill-closed {
+  background: #FFE5E5 !important;
+  color: #DC3545 !important;
+  font-size: 0.8rem !important;
+  padding: 0.8rem 0.6rem !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  border: 1px solid #ff0101 !important;
+}
+
+::ng-deep .btn-close-question {
+  background-color: $blue !important;
+  border: 1px solid $blue !important;
+  border-radius: 6px !important;
+  padding: 0.55rem 1.2rem !important;
+
+  .p-button-label {
+    color: #ffffff !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+  }
+
+  .p-button-icon {
+    color: #ffffff !important;
+    font-size: 0.85rem !important;
+    margin-right: 0.4rem !important;
+  }
+
+  &:hover {
+    background-color: $blue-hover !important;
+    border-color: $blue-hover !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+::ng-deep .btn-reopen-question {
+  background-color: #28A745 !important;
+  border: 1px solid #28A745 !important;
+  border-radius: 6px !important;
+  padding: 0.55rem 1.2rem !important;
+
+  .p-button-label {
+    color: #ffffff !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+  }
+
+  .p-button-icon {
+    color: #ffffff !important;
+    font-size: 0.85rem !important;
+    margin-right: 0.4rem !important;
+  }
+
+  &:hover {
+    background-color: #218838 !important;
+    border-color: #218838 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.conversation-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #D1D7DC;
+  overflow: hidden;
+  padding: 1.75rem 1.75rem 1.5rem;
+}
+
+.conversation-header {
+  margin-bottom: 1.5rem;
+
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: $text-main;
+    margin-bottom: 0.35rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.9rem;
+    color: $text-sub;
+    margin: 0;
+  }
+}
+
+.messages-container {
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.message-row {
+  display: flex;
+  gap: 0.85rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #F3F4F6;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.avatar-col {
+  flex: 0 0 auto;
+}
+
+::ng-deep .avatar-blue {
+  background: #2642bd !important;
+  width: 2.4rem !important;
+  height: 2.4rem !important;
+  font-size: 0.9rem !important;
+}
+
+::ng-deep .avatar-black {
+  background: #000000 !important;
+  width: 2.4rem !important;
+  height: 2.4rem !important;
+  font-size: 0.9rem !important;
+}
+
+.content-col {
+  flex: 1 1 auto;
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.25rem;
+
+  // Badge "Edited" và Icon đồng hồ
+  .history-badge {
+    margin-left: 0.5rem;
+    color: #94A3B8;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s;
+
+    i {
+      font-size: 0.85rem;
+    }
+
+    &:hover {
+      color: #0056D2; // Hiện màu xanh khi hover giống style Coursera của bạn
+    }
+  }
+
+  // Định dạng nội dung bên trong Popover lịch sử
+  .history-list {
+    width: 260px;
+    padding: 4px;
+
+    .history-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: #1F1F1F;
+      border-bottom: 1px solid #F3F4F6;
+      padding-bottom: 6px;
+      margin-bottom: 8px;
+    }
+
+    .history-item {
+      font-size: 0.85rem;
+      color: #636363;
+      padding: 6px 0;
+      border-bottom: 1px solid #F9FAFB;
+      white-space: pre-wrap; // Giữ nguyên xuống dòng nếu có
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+  }
+
+  .author-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $text-main;
+  }
+
+  .dot {
+    color: #D1D5DB;
+  }
+
+  .timestamp {
+    font-size: 0.8rem;
+    color: $text-sub;
+  }
+
+  ::ng-deep .btn-edit-message {
+    margin-left: auto;
+
+    .p-button-icon {
+      font-size: 0.85rem !important;
+      color: $text-sub !important;
+    }
+
+    &:hover .p-button-icon {
+      color: $text-main !important;
+    }
+  }
+
+  .btn-history-icon {
+    margin-left: 0.25rem;
+    padding: 0.25rem 0.4rem;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    color: $text-sub;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    .pi {
+      font-size: 0.85rem;
+    }
+
+    &:hover {
+      background: #F3F4F6;
+      color: $text-main;
+    }
+  }
+}
+
+.message-bubble {
+  background-color: #F3F4F6;
+  border-radius: 12px;
+  padding: 0.7rem 0.9rem;
+  display: inline-block;
+  max-width: 100%;
+
+  .message-text {
+    margin: 0;
+    font-size: 0.9rem;
+    color: $text-main;
+    line-height: 1.5;
+    white-space: pre-wrap;
+  }
+}
+
+.message-edit {
+  margin-top: 0.25rem;
+
+  ::ng-deep .edit-message-input {
+    width: 100% !important;
+    border-radius: 8px !important;
+    border: 1px solid #D1D5DB !important;
+    font-size: 0.9rem !important;
+    padding: 0.6rem 0.8rem !important;
+
+    &:focus {
+      border-color: $blue !important;
+      box-shadow: 0 0 0 1px rgba(0, 86, 210, 0.15) !important;
+    }
+  }
+
+  .edit-actions {
+    margin-top: 0.5rem;
+  }
+}
+
+::ng-deep .btn-save-edit {
+  background-color: $blue !important;
+  border-color: $blue !important;
+  padding: 0.45rem 1rem !important;
+
+  .p-button-label {
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+  }
+
+  &:hover {
+    background-color: $blue-hover !important;
+    border-color: $blue-hover !important;
+  }
+}
+
+::ng-deep .btn-cancel-edit {
+  .p-button-label {
+    font-size: 0.8rem !important;
+    color: $text-sub !important;
+  }
+
+  &:hover {
+    background-color: #F3F4F6 !important;
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem 1rem;
+  font-size: 0.9rem;
+  color: $text-sub;
+}
+
+.composer {
+  margin-top: 1.5rem;
+  border-top: 1px solid #F3F4F6;
+  padding-top: 1.25rem;
+
+  .composer-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $text-main;
+    margin-bottom: 0.75rem;
+  }
+
+  ::ng-deep .composer-input {
+    width: 100% !important;
+    border-radius: 8px !important;
+    border-color: #D1D5DB !important;
+    font-size: 0.9rem !important;
+
+    &:focus {
+      border-color: $blue !important;
+      box-shadow: 0 0 0 1px rgba(0, 86, 210, 0.15) !important;
+    }
+  }
+
+  .composer-actions {
+    margin-top: 0.75rem;
+  }
+}
+
+::ng-deep .btn-send-message {
+  background-color: $blue !important;
+  border: 1px solid $blue !important;
+  border-radius: 6px !important;
+  padding: 0.5rem 1.1rem !important;
+
+  .p-button-label {
+    color: #ffffff !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+  }
+
+  .p-button-icon {
+    color: #ffffff !important;
+    font-size: 0.85rem !important;
+    margin-right: 0.35rem !important;
+  }
+
+  &:hover {
+    background-color: $blue-hover !important;
+    border-color: $blue-hover !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.closed-notice {
+  margin-top: 1.25rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+  background-color: #FEF3C7;
+  color: #92400E;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  .pi {
+    font-size: 1rem;
+  }
+}
+
+/* Confirm dialog buttons (reuse same style as table) */
+::ng-deep .btn-confirm-primary {
+  background-color: $blue !important;
+  border-color: $blue !important;
+
+  .p-button-label {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+  }
+
+  &:hover {
+    background-color: $blue-hover !important;
+    border-color: $blue-hover !important;
+  }
+}
+
+::ng-deep .btn-confirm-secondary {
+  .p-button-label {
+    color: $text-sub !important;
+    font-weight: 500 !important;
+  }
+
+  &:hover {
+    background-color: #F3F4F6 !important;
+  }
+}
+
+.update-form-container {
+  background: #ffffff;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
+
+.meta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.75rem;
+  font-size: 0.88rem;
+  margin-top: 0.1rem;
+
+  .meta-label {
+    color: $text-sub;
+  }
+
+  .meta-value {
+    color: $text-main;
+    font-weight: 500;
+  }
+
+  .meta-dot {
+    color: #D1D5DB;
+  }
+}

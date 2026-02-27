@@ -286,6 +286,13 @@ $bg-light: #F8F9FA;
   font-size: 0.9rem !important;
 }
 
+::ng-deep .avatar-blue {
+  background: #2642bd !important;
+  width: 2.4rem !important;
+  height: 2.4rem !important;
+  font-size: 0.9rem !important;
+}
+
 .content-col {
   flex: 1 1 auto;
 }

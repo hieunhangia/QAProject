@@ -1,1 +1,111 @@
-<p>question-detail works!</p>
+<div class="coursera-layout" *ngIf="recentQuestion">
+    <div class="coursera-wrapper">
+        <p-confirmDialog></p-confirmDialog>
+        <!-- Header -->
+        <div class="header-container flex justify-content-between align-items-start">
+            <div class="header-text">
+                <p-button icon="pi pi-arrow-left" styleClass="btn-back" routerLink="/questionBA/list">
+                </p-button>
+                <div class="title-wrapper">
+                    <h1 class="main-title">{{ recentQuestion.title }}</h1>
+                    <p class="sub-title">{{ recentQuestion.content }}</p>
+                </div>
+            </div>
+
+            <div class="meta-row">
+                <span class="meta-label">Created by</span>
+                <span class="meta-value">{{ recentQuestion.creatorName || 'Unknown' }}</span>
+                <span class="meta-dot">•</span>
+                <span class="meta-label">Assigned person</span>
+                <span class="meta-value">{{ name || 'Unknown' }}</span>
+                <span class="meta-dot">•</span>
+                <span class="meta-label">Created at</span>
+                <span class="meta-value">
+                    {{ recentQuestion.creationTime | date: 'MMM d, y, h:mm a' }}
+                </span>
+            </div>
+
+            <div class="header-actions d-flex align-items-center gap-3 my-3">
+                <p-tag [value]="status === QaStatus.Open ? 'Open' : 'Closed'" styleClass="tag-pill-open">
+                </p-tag>
+            </div>
+
+            <!-- Conversation -->
+            <div class="conversation-card shadow-sm">
+                <div class="conversation-header">
+                    <h2 class="section-title">Conversation</h2>
+                    <p class="section-subtitle">All messages between BA and User.</p>
+                </div>
+
+                <div class="messages-container">
+                    <div class="message-row" *ngFor="let msg of recentQuestion.messages">
+                        <div class="avatar-col">
+                            <p-avatar [label]="(msg.creatorName || 'U').charAt(0)" size="large" shape="circle"
+                                [styleClass]="msg.creatorId === id ? 'avatar-black' : 'avatar-blue'">
+                            </p-avatar>
+                        </div>
+
+                        <div class="content-col">
+                            <div class="message-header">
+                                <span class="author-name">{{ msg.creatorName || 'User' }}</span>
+                                <span class="dot">•</span>
+                                <span class="timestamp">{{ msg.creationTime | date: 'MMM d, y, h:mm a' }}</span>
+
+                                <span *ngIf="checkHistoryMessages(msg.id)" class="history-badge"
+                                    (click)="historyOp.toggle($event)">
+                                    <i class="pi pi-history" pTooltip="Message edited"></i>
+                                </span>
+
+                                <p-popover #historyOp>
+                                    <div class="history-list">
+                                        <div class="history-title">History</div>
+                                        <div *ngFor="let h of historyUpdateMessages" class="history-item">{{ h }}</div>
+                                    </div>
+                                </p-popover>
+
+                                <p-button
+                                    *ngIf="status === QaStatus.Open && canEdit(msg) && editingMessageId !== msg.id"
+                                    icon="pi pi-pencil" styleClass="btn-edit-message p-button-text p-button-rounded"
+                                    pTooltip="Edit message" tooltipPosition="top" (onClick)="startEdit(msg)">
+                                </p-button>
+                            </div>
+
+                            <div class="message-bubble" *ngIf="editingMessageId !== msg.id">
+                                <p class="message-text">{{ msg.content }}</p>
+                            </div>
+
+                            <div class="message-edit" *ngIf="editingMessageId === msg.id">
+                                <textarea pTextarea [(ngModel)]="editingContent" rows="3" class="edit-message-input"
+                                    maxlength="150"></textarea>
+                                <div class="edit-actions flex gap-2 mt-2">
+                                    <p-button label="Save" icon="pi pi-check" styleClass="btn-save-edit"
+                                        (onClick)="saveEdit(msg.id)">
+                                    </p-button>
+                                    <p-button label="Cancel" icon="pi pi-times"
+                                        styleClass="btn-cancel-edit p-button-text" (onClick)="cancelEdit()">
+                                    </p-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!recentQuestion.messages || recentQuestion.messages.length === 0" class="empty-state">
+                        <p>No messages yet. Start the conversation below.</p>
+                    </div>
+                </div>
+
+                <!-- Composer -->
+                <div class="composer">
+                    <h3 class="composer-title">Add a new message</h3>
+                    <textarea pTextarea [autoResize]="true" rows="3" class="composer-input" maxlength="150"
+                        #newMessage></textarea>
+
+                    <div class="composer-actions flex justify-content-end gap-2">
+                        <p-button label="Send Message" icon="pi pi-send" styleClass="btn-send-message"
+                            (onClick)="addMessage(recentQuestion.id, { content: newMessage.value }); newMessage.value = ''">
+                        </p-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

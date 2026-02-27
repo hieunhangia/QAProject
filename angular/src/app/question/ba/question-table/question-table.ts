@@ -86,7 +86,7 @@ export class QuestionTable implements OnInit, OnDestroy {
   }
 
   viewDetail(id: string) {
-    this.router.navigate(['question', 'detail', id]);
+    this.router.navigate(['questionBA', 'detail', id]);
   }
 
   loadQuestion(skipCount: number, maxResultCount: number) {

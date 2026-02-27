@@ -48,7 +48,7 @@
             </span>
           </div>
 
-      <div class="header-actions d-flex align-items-center gap-3 mt-3">
+      <div class="header-actions d-flex align-items-center gap-3 my-3">
         <p-tag [value]="status === QaStatus.Open ? 'Open' : 'Closed'"
           [styleClass]="status === QaStatus.Open ? 'tag-pill-open' : 'tag-pill-closed'">
         </p-tag>
@@ -74,7 +74,7 @@
         <div class="message-row" *ngFor="let msg of recentQuestion.messages">
           <div class="avatar-col">
             <p-avatar [label]="(msg.creatorName || 'U').charAt(0)" size="large" shape="circle"
-              styleClass="avatar-black">
+              [styleClass]="msg.creatorId === id ? 'avatar-black' : 'avatar-blue'">
             </p-avatar>
           </div>
 

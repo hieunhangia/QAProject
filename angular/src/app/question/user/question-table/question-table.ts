@@ -49,7 +49,6 @@ export class QuestionTable implements OnInit, OnDestroy {
   recentQuestions: User.Questions.QuestionSummaryDto[] = [];
   totalQuestions = 0;
   loading = true;
-  private readonly toaster = inject(ToasterService);
   private router = inject(Router);
 
   // Filter properties
